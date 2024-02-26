@@ -7,11 +7,11 @@ export type MeetupType = {
   image: string;
   title: string;
   location: string;
-  id: number;
+  id: string;
   category: string;
   description: string;
   comment: string;
-  person: number;
+  capacity: number;
 };
 
 const DUMMY_DATA = [
@@ -73,22 +73,29 @@ const HomePage: React.FC<{ meetups: MeetupType[] }> = (props) => {
 export default HomePage;
 
 export async function getStaticProps() {
-  //   const password = "tGPeMsshZVhUlnE5";
-  //   const uri = `mongodb+srv://jubi1838:${password}@connect-app.wyxynia.mongodb.net/?retryWrites=true&w=majority&appName=connect-app`;
-  //   const client = new MongoClient(uri, {
-  //     serverApi: {
-  //       version: ServerApiVersion.v1,
-  //       strict: true,
-  //       deprecationErrors: true,
-  //     },
-  //   });
-  //     const db = client.db()
-  //     const connectCollection = db.collection("connect-app");
-  //     const connects = await connectCollection.find().toArray();
-  //     client.close()
+  const uri =
+    "mongodb+srv://jubi1838:tGPeMsshZVhUlnE5@connect-app.wyxynia.mongodb.net/connect?retryWrites=true&w=majority&appName=connect-app";
+  const client = await MongoClient.connect(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    },
+  });
+  const db = client.db();
+  const connectCollection = db.collection("meetup-data");
+  const connects = await connectCollection.find().toArray();
+  client.close();
   return {
     props: {
-      meetups: DUMMY_DATA,
+      meetups: connects.map((data) => ({
+        // image: data.image,
+        title: data.title,
+        id: data._id.toString(),
+        category: data.category,
+        description: data.description,
+        capacity: data.capacity,
+      })),
     },
   };
 }
