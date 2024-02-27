@@ -1,10 +1,17 @@
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import NewMeetup from "./NewMeetup";
 
 const Footer: React.FC = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
   const [isCreateNewMeetup, setIsCreateNewMeetup] = useState(false);
   const addMeetupHandler = () => {
-    setIsCreateNewMeetup(true);
+    if (session) {
+      setIsCreateNewMeetup(true);
+    }
+    router.push("/login");
   };
   const doneHandler = () => {
     setIsCreateNewMeetup(false);

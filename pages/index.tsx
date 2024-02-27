@@ -1,6 +1,7 @@
 import React from "react";
 import MainPage from "@/components/MainPage";
 import { MongoClient, ServerApiVersion } from "mongodb";
+import { useSession } from "next-auth/react";
 import Footer from "@/components/Footer";
 
 export type MeetupType = {
@@ -62,6 +63,8 @@ const DUMMY_DATA = [
 ];
 
 const HomePage: React.FC<{ meetups: MeetupType[] }> = (props) => {
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <>
       <h1>This is Home Page</h1>

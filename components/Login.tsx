@@ -1,21 +1,29 @@
-import { useRef } from "react";
+"use client";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Login = () => {
-  const enteredId = useRef(null);
-  const enteredPassword = useRef(null);
+  const { data: session } = useSession();
+  if (session) {
+    return <button onClick={() => signOut()}>로그아웃</button>;
+  }
+
   return (
-    <form>
-      <p>
-        <label htmlFor="id">아이디</label>
-        <input ref={enteredId} id="id" type="text"></input>
-      </p>
-      <p>
-        <label htmlFor="password">비밀번호</label>
-        <input ref={enteredPassword} id="password" type="password"></input>
-      </p>
-      <button>회원가입</button>
-      <button type="submit">로그인</button>
-    </form>
+    <>
+      {/* <button onClick={}>네이버로 로그인</button> */}
+      <button
+        onClick={async () => {
+          const response = await fetch(
+            "http://localhost:3000/api/auth/callback/kakao"
+          );
+          signIn("kakao", {
+            callbackUrl: "http://localhost:3000/api/auth/callback/kakao",
+          });
+          console.log(response);
+        }}
+      >
+        카카오로 로그인
+      </button>
+    </>
   );
 };
 export default Login;
