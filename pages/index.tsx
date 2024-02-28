@@ -3,6 +3,9 @@ import MainPage from "@/components/MainPage";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { useSession } from "next-auth/react";
 import Footer from "@/components/Footer";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export type MeetupType = {
   image: string;
@@ -11,7 +14,9 @@ export type MeetupType = {
   id: string;
   category: string;
   description: string;
-  comment: string;
+  comments: {
+    content: string;
+  };
   capacity: number;
 };
 
@@ -70,6 +75,17 @@ const HomePage: React.FC<{ meetups: MeetupType[] }> = (props) => {
       <h1>This is Home Page</h1>
       <MainPage meetups={props.meetups}></MainPage>
       <Footer />
+      <button
+        onClick={async () => {
+          const response = await fetch(
+            `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_ID}&redirect_uri=${process.env.KAKAO_URI}`,
+            {
+              method: "GET",
+            }
+          );
+          console.log(response.json());
+        }}
+      ></button>
     </>
   );
 };
@@ -92,7 +108,7 @@ export async function getStaticProps() {
   return {
     props: {
       meetups: connects.map((data) => ({
-        // image: data.image,
+        image: data.image,
         title: data.title,
         id: data._id.toString(),
         category: data.category,

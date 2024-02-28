@@ -10,6 +10,7 @@ const Footer: React.FC = () => {
   const addMeetupHandler = () => {
     if (session) {
       setIsCreateNewMeetup(true);
+      return;
     }
     router.push("/login");
   };

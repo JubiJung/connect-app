@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import Modal from "./Modal";
 
 const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
-  const image = useRef<HTMLInputElement>(null);
-  const title = useRef<HTMLInputElement>(null);
-  const category = useRef<HTMLInputElement>(null);
-  const capacity = useRef<HTMLInputElement>(null);
-  const description = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const categoryRef = useRef<HTMLInputElement>(null);
+  const capacityRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const addMeetupHandler = async (enteredMeetupData: {
@@ -15,7 +15,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     description: string;
     category: string;
     capacity: number;
-    image: string;
+    image: any;
   }) => {
     const response = await fetch("/api/new-meetup", {
       method: "POST",
@@ -30,19 +30,27 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   };
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    const enteredTitle = title.current!.value;
-    const enteredDescription = description.current!.value;
-    const enteredCategory = category.current!.value;
-    const enteredCapacity = parseInt(capacity.current!.value);
-    const inputImage = image.current!.value;
-    const meetupData = {
-      image: inputImage,
-      title: enteredTitle,
-      category: enteredCategory,
-      capacity: enteredCapacity,
-      description: enteredDescription,
-    };
-    addMeetupHandler(meetupData);
+    const fileReader = new FileReader();
+    const enteredTitle = titleRef.current!.value;
+    const enteredDescription = descriptionRef.current!.value;
+    const enteredCategory = categoryRef.current!.value;
+    const enteredCapacity = parseInt(capacityRef.current!.value);
+    const inputImage = imageRef.current!.files![0];
+    if (inputImage) {
+      fileReader.readAsDataURL(inputImage);
+      fileReader.onload = () => {
+        const meetupData = {
+          image: fileReader.result,
+          title: enteredTitle,
+          category: enteredCategory,
+          capacity: enteredCapacity,
+          description: enteredDescription,
+        };
+        addMeetupHandler(meetupData);
+      };
+    }
+
+    // URL.revokeObjectURL(url);
   };
 
   return (
@@ -50,23 +58,23 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
       <form onSubmit={submitHandler}>
         <p>
           <label htmlFor="image">대표 이미지</label>
-          <input ref={image} id="image" type="file" />
+          <input ref={imageRef} id="image" type="file" accept="image/*" />
         </p>
         <p>
           <label htmlFor="title">모임명</label>
-          <input ref={title} id="title" type="text" />
+          <input ref={titleRef} id="title" type="text" />
         </p>
         <p>
           <label htmlFor="title">카테고리</label>
-          <input ref={category} id="category" type="text" />
+          <input ref={categoryRef} id="category" type="text" />
         </p>
         <p>
           <label htmlFor="capacity">정원</label>
-          <input ref={capacity} id="capacity" type="number" />
+          <input ref={capacityRef} id="capacity" type="number" />
         </p>
         <p>
           <label htmlFor="description">모임소개</label>
-          <input ref={description} id="description" type="text" />
+          <input ref={descriptionRef} id="description" type="text" />
         </p>
         <button onClick={onDone}>취소</button>
         <button type="submit">등록</button>
