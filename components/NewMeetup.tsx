@@ -1,8 +1,13 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
+import CategoryDropDown from "./CategoryDropDown";
 
 const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
+  const [selectedCategory, setSelectedCategory] = useState<{
+    id: number;
+    categoryTitle: string;
+  }>({ id: 0, categoryTitle: "전체" });
   const imageRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLInputElement>(null);
@@ -10,10 +15,14 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   const descriptionRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  const selectCategoryHandler = (li: { id: number; categoryTitle: string }) => {
+    setSelectedCategory(li);
+  };
+
   const addMeetupHandler = async (enteredMeetupData: {
     title: string;
     description: string;
-    category: string;
+    category: { id: number; categoryTitle: string };
     capacity: number;
     image: any;
   }) => {
@@ -33,7 +42,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     const fileReader = new FileReader();
     const enteredTitle = titleRef.current!.value;
     const enteredDescription = descriptionRef.current!.value;
-    const enteredCategory = categoryRef.current!.value;
+    const enteredCategory = selectedCategory;
     const enteredCapacity = parseInt(capacityRef.current!.value);
     const inputImage = imageRef.current!.files![0];
     if (inputImage) {
@@ -64,10 +73,14 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
           <label htmlFor="title">모임명</label>
           <input ref={titleRef} id="title" type="text" />
         </p>
-        <p>
-          <label htmlFor="title">카테고리</label>
-          <input ref={categoryRef} id="category" type="text" />
-        </p>
+        <div>
+          <span>카테고리</span>
+          <CategoryDropDown
+            selectedCategory={selectedCategory}
+            onSelectCategory={selectCategoryHandler}
+          />
+        </div>
+
         <p>
           <label htmlFor="capacity">정원</label>
           <input ref={capacityRef} id="capacity" type="number" />

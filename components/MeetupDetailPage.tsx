@@ -10,7 +10,7 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
           <Image alt="img" src={meetup.image} width="64" height="64" />
         </div>
         <div>{meetup.title}</div>
-        <div>{meetup.category}</div>
+        <div>{meetup.category.categoryTitle}</div>
         <div>{meetup.capacity}명</div>
         <div></div>
         <div></div>

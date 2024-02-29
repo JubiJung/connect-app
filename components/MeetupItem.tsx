@@ -14,7 +14,7 @@ const MeetupItem: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
       <div>
         <span>위치</span>
         <span>{meetup.capacity}</span>
-        <span>{meetup.category}</span>
+        <span>{meetup.category.categoryTitle}</span>
       </div>
     </li>
   );

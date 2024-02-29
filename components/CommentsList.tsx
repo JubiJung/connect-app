@@ -1,12 +1,14 @@
-import { MeetupType, getStaticProps } from "@/pages";
-import { EventType } from "next-auth";
+import { MeetupType } from "@/pages";
 import { ChangeEvent, useState } from "react";
+import { useRouter } from "next/router";
 
 const CommentsList: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
+  const router = useRouter();
   const [commentValue, setCommentValue] = useState<string>("");
   const commentValueHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setCommentValue(e.target.value);
   };
+
   const submitHandler = async () => {
     const commentData = {
       id: meetup.id,
@@ -22,6 +24,8 @@ const CommentsList: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
       },
     });
     const data = await response.json();
+    setCommentValue("");
+    router.push(`/meetup/${router.query.meetupId}`);
   };
 
   return (
@@ -29,7 +33,10 @@ const CommentsList: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
       <h2>this is comments List</h2>
       <textarea value={commentValue} onChange={commentValueHandler} />
       <button onClick={submitHandler}>등록</button>
-      {meetup.comments && <div>{meetup.comments.content}</div>}
+      {/* 자기가 작성한 글만 수정, 삭제 가능 */}
+      {meetup.comments.map((comment, i) => (
+        <div key={i}>{comment.content}</div>
+      ))}
     </>
   );
 };
