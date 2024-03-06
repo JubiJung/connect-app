@@ -2,6 +2,7 @@ import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
 import CategoryDropDown from "./CategoryDropDown";
+import { useSession } from "next-auth/react";
 
 const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   const [selectedCategory, setSelectedCategory] = useState<{
@@ -10,10 +11,10 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   }>({ id: 0, categoryTitle: "전체" });
   const imageRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
-  const categoryRef = useRef<HTMLInputElement>(null);
   const capacityRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { data: session } = useSession();
 
   const selectCategoryHandler = (li: { id: number; categoryTitle: string }) => {
     setSelectedCategory(li);
@@ -25,6 +26,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     category: { id: number; categoryTitle: string };
     capacity: number;
     image: any;
+    username: any;
   }) => {
     const response = await fetch("/api/new-meetup", {
       method: "POST",
@@ -54,6 +56,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
           category: enteredCategory,
           capacity: enteredCapacity,
           description: enteredDescription,
+          username: session?.user?.name,
         };
         addMeetupHandler(meetupData);
       };

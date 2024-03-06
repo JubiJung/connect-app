@@ -32,9 +32,16 @@ export default NextAuth({
       clientId: process.env.NAVER_ID!,
       clientSecret: process.env.NAVER_SECRET!,
     }),
+
     KakaoProvider({
       clientId: process.env.KAKAO_ID!,
       clientSecret: process.env.KAKAO_SECRET!,
     }),
   ],
+  // callbacks: {
+  //   async session({ session, token, user }) {
+  //     session.user!.name = token.sub as string;
+  //     return session;
+  //   },
+  // },
 });

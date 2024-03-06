@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export type MeetupType = {
+  username: string;
   image: string;
   title: string;
   location: string;
@@ -17,6 +18,7 @@ export type MeetupType = {
   comments: [
     {
       id: string;
+      username: string;
       content: string;
       date: string;
     }
@@ -25,26 +27,13 @@ export type MeetupType = {
 };
 
 const HomePage: React.FC<{ meetups: MeetupType[] }> = (props) => {
-  const { data: session } = useSession();
+  const data = useSession();
+  console.log(data);
   return (
     <>
       <h1>This is Home Page</h1>
       <MainPage meetups={props.meetups}></MainPage>
       <Footer />
-      <button
-        onClick={async () => {
-          const response = await fetch(
-            `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=58ba5a47bcd61d597eca1c3682cdd249&redirect_uri=http://localhost:3000/kakao/auth`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          console.log(response.json());
-        }}
-      ></button>
     </>
   );
 };
@@ -73,6 +62,7 @@ export async function getServerSideProps() {
         category: data.category,
         description: data.description,
         capacity: data.capacity,
+        username: data.username,
       })),
     },
   };

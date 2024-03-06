@@ -1,5 +1,5 @@
-import { MongoClient, ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import { MongoClient, ObjectId } from "mongodb";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -9,13 +9,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     );
     const db = client.db();
     const connectCollection = db.collection("meetup-data");
-    const result = await connectCollection.findOneAndUpdate(
-      { _id: new ObjectId(data.postId) },
-      { $push: { comments: data } }
+    const result = connectCollection.findOneAndUpdate(
+      { _id: new ObjectId(data.commentId) },
+      { $set: { comments: data } }
     );
     client.close();
     res.status(201).json({ message: "connect inserted" });
   }
 }
-
-export default handler;
