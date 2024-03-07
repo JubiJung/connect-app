@@ -6,7 +6,6 @@ import { MeetupType } from "@/pages";
 import MeetupDetailPage from "@/components/MeetupDetailPage";
 
 const MeetupPage: React.FC<{ meetup: MeetupType }> = (props) => {
-  console.log(props);
   return (
     <>
       <MeetupDetailPage meetup={props.meetup} />

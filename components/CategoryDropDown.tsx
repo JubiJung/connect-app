@@ -15,9 +15,10 @@ const categoryList = [
 ];
 
 const CategoryDropDown: React.FC<{
+  currentSeletedCategory: { id: number; categoryTitle: string };
   selectedCategory: { id: number; categoryTitle: string };
   onSelectCategory: (id: { id: number; categoryTitle: string }) => void;
-}> = ({ selectedCategory, onSelectCategory }) => {
+}> = ({ selectedCategory, onSelectCategory, currentSeletedCategory }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>

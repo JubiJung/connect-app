@@ -7,6 +7,7 @@ const Header: React.FC = () => {
   if (session) {
     return (
       <>
+        <Link href="/">Home</Link>
         <div>{session.user?.name}님 안녕하세요.</div>
         <button onClick={() => signOut({ callbackUrl: "/" })}>로그아웃</button>
       </>
@@ -14,6 +15,7 @@ const Header: React.FC = () => {
   }
   return (
     <div>
+      <Link href="/">Home</Link>
       <Link href="/login">Login</Link>
     </div>
   );

@@ -17,7 +17,8 @@ export type MeetupType = {
   description: string;
   comments: [
     {
-      id: string;
+      postId: string;
+      commentId: string;
       username: string;
       content: string;
       date: string;

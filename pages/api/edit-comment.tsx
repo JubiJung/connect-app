@@ -9,11 +9,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     );
     const db = client.db();
     const connectCollection = db.collection("meetup-data");
-    const result = connectCollection.findOneAndUpdate(
-      { _id: new ObjectId(data.commentId) },
-      { $set: { comments: data } }
+
+    const result = await connectCollection.findOneAndUpdate(
+      {
+        _id: new ObjectId(data.postId),
+      },
+      {
+        $set: {
+          "comments.$[elem]": data,
+        },
+      },
+      { arrayFilters: [{ "elem.commentId": data.commentId }] }
     );
     client.close();
     res.status(201).json({ message: "connect inserted" });
   }
 }
+export default handler;
