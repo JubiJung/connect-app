@@ -1,18 +1,23 @@
 import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Modal from "./Modal";
 import CategoryDropDown from "./CategoryDropDown";
-import { useSession } from "next-auth/react";
 
 const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   const [selectedCategory, setSelectedCategory] = useState<{
     id: number;
     categoryTitle: string;
   }>({ id: 0, categoryTitle: "전체" });
-  const imageRef = useRef<HTMLInputElement>(null);
-  const titleRef = useRef<HTMLInputElement>(null);
-  const capacityRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
+  const [imgPreview, setImgPreview] = useState<any>("");
+  const formRef = {
+    titleRef: useRef<HTMLInputElement>(null),
+    locationRef: useRef<HTMLInputElement>(null),
+    imageRef: useRef<HTMLInputElement>(null),
+    capacityRef: useRef<HTMLInputElement>(null),
+    descriptionRef: useRef<HTMLInputElement>(null),
+  };
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -42,11 +47,11 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     const fileReader = new FileReader();
-    const enteredTitle = titleRef.current!.value;
-    const enteredDescription = descriptionRef.current!.value;
+    const enteredTitle = formRef.titleRef.current!.value;
+    const enteredDescription = formRef.descriptionRef.current!.value;
     const enteredCategory = selectedCategory;
-    const enteredCapacity = parseInt(capacityRef.current!.value);
-    const inputImage = imageRef.current!.files![0];
+    const enteredCapacity = parseInt(formRef.capacityRef.current!.value);
+    const inputImage = formRef.imageRef.current!.files![0];
     if (inputImage) {
       fileReader.readAsDataURL(inputImage);
       fileReader.onload = () => {
@@ -70,11 +75,16 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
       <form onSubmit={submitHandler}>
         <p>
           <label htmlFor="image">대표 이미지</label>
-          <input ref={imageRef} id="image" type="file" accept="image/*" />
+          <input
+            ref={formRef.imageRef}
+            id="image"
+            type="file"
+            accept="image/*"
+          />
         </p>
         <p>
           <label htmlFor="title">모임명</label>
-          <input ref={titleRef} id="title" type="text" />
+          <input ref={formRef.titleRef} id="title" type="text" />
         </p>
         <div>
           <span>카테고리</span>
@@ -86,11 +96,11 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
 
         <p>
           <label htmlFor="capacity">정원</label>
-          <input ref={capacityRef} id="capacity" type="number" />
+          <input ref={formRef.capacityRef} id="capacity" type="number" />
         </p>
         <p>
           <label htmlFor="description">모임소개</label>
-          <input ref={descriptionRef} id="description" type="text" />
+          <input ref={formRef.descriptionRef} id="description" type="text" />
         </p>
         <button onClick={onDone}>취소</button>
         <button type="submit">등록</button>

@@ -1,14 +1,16 @@
+import { useState } from "react";
 import { MeetupType } from "@/pages";
 import MeetupItem from "./MeetupItem";
 import Category from "./Category";
-import { useState } from "react";
 
 const MeetupList: React.FC<{ meetups: MeetupType[] }> = ({ meetups }) => {
   const [selectedCategory, setSelectedCategory] = useState(0);
+
   const filteredList =
     selectedCategory === 0
       ? meetups
       : meetups.filter((meetup) => meetup.category.id === selectedCategory);
+
   const categorySelectHandler = (id: number) => {
     setSelectedCategory(id);
   };

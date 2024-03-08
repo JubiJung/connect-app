@@ -4,6 +4,7 @@ import { MeetupType } from "@/pages";
 
 const MeetupItem: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
   const router = useRouter();
+
   const showDetailHandler = () => {
     router.push(`/meetup/${meetup.id}`);
   };
@@ -12,7 +13,7 @@ const MeetupItem: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
       <Image width="72" height="72" alt="img" src={meetup.image} />
       <div>{meetup.title}</div>
       <div>
-        <span>위치</span>
+        <span>{meetup.location}</span>
         <span>{meetup.capacity}</span>
         <span>{meetup.category.categoryTitle}</span>
       </div>

@@ -15,10 +15,9 @@ const categoryList = [
 ];
 
 const CategoryDropDown: React.FC<{
-  currentSeletedCategory: { id: number; categoryTitle: string };
   selectedCategory: { id: number; categoryTitle: string };
-  onSelectCategory: (id: { id: number; categoryTitle: string }) => void;
-}> = ({ selectedCategory, onSelectCategory, currentSeletedCategory }) => {
+  onSelectCategory: (li: { id: number; categoryTitle: string }) => void;
+}> = ({ selectedCategory, onSelectCategory }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -34,7 +33,7 @@ const CategoryDropDown: React.FC<{
       </div>
       {isOpen && (
         <ul>
-          {categoryList.map((li) => (
+          {categoryList.map((li, i) => (
             <li
               onClick={() => {
                 onSelectCategory(li);
@@ -42,7 +41,15 @@ const CategoryDropDown: React.FC<{
               }}
               key={li.id}
             >
-              <div>{li.categoryTitle}</div>
+              <div
+                style={
+                  selectedCategory.id === i + 1
+                    ? { backgroundColor: "grey" }
+                    : { backgroundColor: "none" }
+                }
+              >
+                {li.categoryTitle}
+              </div>
             </li>
           ))}
         </ul>

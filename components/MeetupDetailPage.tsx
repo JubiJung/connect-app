@@ -1,55 +1,53 @@
-import { MeetupType } from "@/pages";
-import NewComment from "./NewComment";
+import { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import EditMeetup from "./EditMeetup";
+import { MeetupType } from "@/pages";
+import NewComment from "./NewComment";
 
 const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
   const { data: session } = useSession();
   const router = useRouter();
-  const [isEdit, setIsEdit] = useState(false);
+
   const deleteHandler = async () => {
-    alert("글을 삭제할까요?");
-    const response = await fetch("/api/delete-meetup", {
-      method: "DELETE",
-      body: JSON.stringify(meetup),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await response.json();
-    router.push("/");
-    alert("삭제 되었습니다.");
-  };
-  const cancelHandler = () => {
-    setIsEdit(false);
+    const res = confirm("글을 삭제할까요?");
+    if (res) {
+      const response = await fetch("/api/delete-meetup", {
+        method: "DELETE",
+        body: JSON.stringify(meetup),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const result = await response.json();
+      router.push("/");
+      alert("삭제 되었습니다.");
+    }
   };
   return (
     <>
       <section>
-        {isEdit ? (
-          <EditMeetup meetup={meetup} onEdit={cancelHandler} />
-        ) : (
-          <>
-            <div>
-              <Image alt="img" src={meetup.image} width="64" height="64" />
-            </div>
-            <div>{meetup.title}</div>
-            <div>{meetup.category.categoryTitle}</div>
-            <div>{meetup.capacity}명</div>
-            <div>작성자 : {meetup.username}</div>
-            <div></div>
-            <div>{meetup.description}</div>
-            {meetup.username === session?.user?.name && (
-              <button onClick={() => setIsEdit(true)}>수정</button>
-            )}
-            {meetup.username === session?.user?.name && (
-              <button onClick={deleteHandler}>삭제</button>
-            )}{" "}
-          </>
+        <div>
+          <Image alt="img" src={meetup.image} width="64" height="64" />
+        </div>
+        <div>{meetup.title}</div>
+        <div>{meetup.category.categoryTitle}</div>
+        <div>{meetup.capacity}명</div>
+        <div>작성자 : {meetup.username}</div>
+        <div>{meetup.location}</div>
+        <div>{meetup.description}</div>
+        {meetup.username === session?.user?.name && (
+          <button
+            onClick={() =>
+              router.push(`/updatemeetup/${router.query.meetupId}`)
+            }
+          >
+            수정
+          </button>
         )}
+        {meetup.username === session?.user?.name && (
+          <button onClick={deleteHandler}>삭제</button>
+        )}{" "}
       </section>
       <NewComment meetup={meetup} />
     </>
