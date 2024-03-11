@@ -45,6 +45,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         category: connect?.category,
         comments: comments,
         username: connect?.username,
+        date: connect?.date,
+        location: connect?.location,
       },
     },
   };

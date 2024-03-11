@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -14,9 +14,28 @@ const CommentsList: React.FC<{
   const router = useRouter();
   const { data: session } = useSession();
   const [isEdit, setIsEdit] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [commentValue, setCommentValue] = useState<string>(comment.content);
   const today = new Date();
-  const todayDate = `${today.getFullYear()}/${today.getMonth()}/${today.getDate()} ${today.getHours()}:${today.getMinutes()}`;
+  const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
+    2,
+    "0"
+  )}/${String(today.getDate()).padStart(2, "0")} ${String(
+    today.getHours()
+  ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
+
+  useEffect(() => {
+    if (router) {
+      router.events.on("routeChangeStart", () => {
+        setIsLoading(true);
+      });
+    }
+    return () => {
+      router.events.off("routeChangeStart", () => {
+        setIsLoading(true);
+      });
+    };
+  }, [router]);
 
   const commentData = {
     postId: comment.postId,
@@ -32,7 +51,6 @@ const CommentsList: React.FC<{
 
   let commentArea = (
     <>
-      {/* 시간에 0 나오게 */}
       <span>{comment.date}</span>
       <span>{comment.content}</span>
     </>
@@ -50,6 +68,8 @@ const CommentsList: React.FC<{
   };
 
   const deleteHandler = async () => {
+    const checkRemove = confirm("댓글을 삭제할까요?");
+    if (!checkRemove) return;
     const response = await fetch("/api/delete-comment", {
       method: "DELETE",
       body: JSON.stringify(commentData),
@@ -78,6 +98,7 @@ const CommentsList: React.FC<{
           <button onClick={deleteHandler}>삭제</button>
         </>
       )}
+      {isLoading && <p>삭제중</p>}
     </div>
   );
 };

@@ -30,16 +30,8 @@ const Category: React.FC<{
               onCategorySelector(li.id);
             }}
           >
-            <div>{li.category}</div>
-            {selectedCategory === i && (
-              <div
-                style={{
-                  backgroundColor: "pink",
-                  width: "10px",
-                  height: "2px",
-                }}
-              ></div>
-            )}
+            <div className="text-3xl font-bold underline">{li.category}</div>
+            {selectedCategory === i && <div className="bg-sky-500 w-2" />}
           </li>
         ))}
       </ul>

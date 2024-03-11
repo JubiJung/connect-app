@@ -1,7 +1,6 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import MainPage from "@/components/MainPage";
 import { MongoClient, ServerApiVersion } from "mongodb";
-import { useSession } from "next-auth/react";
 import Footer from "@/components/Footer";
 import dotenv from "dotenv";
 
@@ -9,6 +8,7 @@ dotenv.config();
 
 export type MeetupType = {
   username: string;
+  date: string;
   image: string;
   title: string;
   location: string;
@@ -28,11 +28,8 @@ export type MeetupType = {
 };
 
 const HomePage: React.FC<{ meetups: MeetupType[] }> = (props) => {
-  const data = useSession();
-  console.log(data);
   return (
     <>
-      <h1>This is Home Page</h1>
       <MainPage meetups={props.meetups}></MainPage>
       <Footer />
     </>
@@ -64,6 +61,8 @@ export async function getServerSideProps() {
         description: data.description,
         capacity: data.capacity,
         username: data.username,
+        location: data.location,
+        date: data.date,
       })),
     },
   };

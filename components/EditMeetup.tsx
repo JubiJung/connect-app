@@ -23,8 +23,12 @@ const EditMeetup: React.FC<{
   };
   const [imgPreview, setImgPreview] = useState<any>(meetup.image);
   const today = new Date();
-  const todayDate = `${today.getFullYear()}/${today.getMonth()}/${today.getDate()} ${today.getHours()}:${today.getMinutes()}`;
-
+  const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
+    2,
+    "0"
+  )}/${String(today.getDate()).padStart(2, "0")} ${String(
+    today.getHours()
+  ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
   const selectCategoryHandler = (li: { id: number; categoryTitle: string }) => {
     setSelectedCategory(li);
   };
@@ -61,6 +65,8 @@ const EditMeetup: React.FC<{
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
+    const checkSubmit = confirm("모임을 등록할까요?");
+    if (!checkSubmit) return;
     const fileReader = new FileReader();
     const inputImage = formRef.imageRef.current!.files![0];
     const enteredTitle = formRef.titleRef.current!.value;

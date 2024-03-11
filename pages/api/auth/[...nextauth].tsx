@@ -8,26 +8,6 @@ dotenv.config();
 
 export default NextAuth({
   providers: [
-    // CredentialsProvider({
-    //   id: "",
-    //   name: "",
-    //   credentials: {
-    //     username: { label: "Username", type: "text", placeholder: "id" },
-    //     password: { label: "password", type: "password" },
-    //   },
-    //   async authorize(credentials, req) {
-    //     const res = await fetch("/", {
-    //       method: "POST",
-    //       body: JSON.stringify(credentials),
-    //       headers: { "Content-Type": "application/json" },
-    //     });
-    //     const user = await res.json();
-    //     if (res.ok && user) {
-    //       return user;
-    //     }
-    //     return null;
-    //   },
-    // }),
     NaverProvider({
       clientId: process.env.NAVER_ID!,
       clientSecret: process.env.NAVER_SECRET!,

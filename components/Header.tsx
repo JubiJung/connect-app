@@ -7,8 +7,14 @@ const Header: React.FC = () => {
   if (session) {
     return (
       <>
-        <Link href="/">Home</Link>
-        <div>{session.user?.name}님 안녕하세요.</div>
+        <Link href="/">
+          <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Connect
+          </div>
+        </Link>
+        <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          {session.user?.name}님 안녕하세요.
+        </div>
         <button onClick={() => signOut({ callbackUrl: "/" })}>로그아웃</button>
       </>
     );

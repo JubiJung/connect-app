@@ -11,14 +11,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const connectCollection = db.collection("meetup-data");
 
     const result = await connectCollection.findOneAndUpdate(
-      {
-        _id: new ObjectId(data.postId),
-      },
-      {
-        $set: {
-          "comments.$[elem]": data,
-        },
-      },
+      { _id: new ObjectId(data.postId) },
+      { $set: { "comments.$[elem]": data } },
       { arrayFilters: [{ "elem.commentId": data.commentId }] }
     );
     client.close();

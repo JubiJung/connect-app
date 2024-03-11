@@ -32,6 +32,7 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
         </div>
         <div>{meetup.title}</div>
         <div>{meetup.category.categoryTitle}</div>
+        <div>{meetup.date}</div>
         <div>{meetup.capacity}명</div>
         <div>작성자 : {meetup.username}</div>
         <div>{meetup.location}</div>

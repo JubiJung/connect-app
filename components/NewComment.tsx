@@ -11,8 +11,11 @@ const NewComment: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
   const { data: session } = useSession();
   const [commentValue, setCommentValue] = useState<string>("");
   const today = new Date();
-  const commentDate = `${today.getFullYear()}/${today.getMonth()}/${today.getDate()} ${today.getHours()}:${today.getMinutes()}`;
-
+  const commentDate = `${today.getFullYear()}/${String(
+    today.getMonth()
+  ).padStart(2, "0")}/${String(today.getDate()).padStart(2, "0")} ${String(
+    today.getHours()
+  ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
   const commentValueHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setCommentValue(e.target.value);
   };

@@ -1,5 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import Header from "./Header";
+import Loading from "@/pages/loading";
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
