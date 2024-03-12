@@ -1,8 +1,9 @@
-import React, { SetStateAction } from "react";
+import React from "react";
 import MainPage from "@/components/MainPage";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import Footer from "@/components/Footer";
 import dotenv from "dotenv";
+import "@/app/globals.css";
 
 dotenv.config();
 
@@ -63,6 +64,7 @@ export async function getServerSideProps() {
         username: data.username,
         location: data.location,
         date: data.date,
+        comments: data.comments || [],
       })),
     },
   };

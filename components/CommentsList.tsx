@@ -14,7 +14,7 @@ const CommentsList: React.FC<{
   const router = useRouter();
   const { data: session } = useSession();
   const [isEdit, setIsEdit] = useState<Boolean>(false);
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  // const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [commentValue, setCommentValue] = useState<string>(comment.content);
   const today = new Date();
   const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
@@ -24,18 +24,18 @@ const CommentsList: React.FC<{
     today.getHours()
   ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
 
-  useEffect(() => {
-    if (router) {
-      router.events.on("routeChangeStart", () => {
-        setIsLoading(true);
-      });
-    }
-    return () => {
-      router.events.off("routeChangeStart", () => {
-        setIsLoading(true);
-      });
-    };
-  }, [router]);
+  // useEffect(() => {
+  //   if (router) {
+  //     router.events.on("routeChangeStart", () => {
+  //       setIsLoading(true);
+  //     });
+  //   }
+  //   return () => {
+  //     router.events.off("routeChangeStart", () => {
+  //       setIsLoading(true);
+  //     });
+  //   };
+  // }, [router]);
 
   const commentData = {
     postId: comment.postId,
@@ -98,7 +98,7 @@ const CommentsList: React.FC<{
           <button onClick={deleteHandler}>삭제</button>
         </>
       )}
-      {isLoading && <p>삭제중</p>}
+      {/* {isLoading && <p>삭제중</p>} */}
     </div>
   );
 };

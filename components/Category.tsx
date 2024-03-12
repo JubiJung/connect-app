@@ -22,16 +22,19 @@ const Category: React.FC<{
 }> = ({ children, onCategorySelector, selectedCategory }) => {
   return (
     <>
-      <ul>
+      <ul className="flex flex-row overflow-x-auto my-5">
         {categoryList.map((li, i) => (
           <li
+            className="whitespace-nowrap px-2"
             key={li.id}
             onClick={() => {
               onCategorySelector(li.id);
             }}
           >
-            <div className="text-3xl font-bold underline">{li.category}</div>
-            {selectedCategory === i && <div className="bg-sky-500 w-2" />}
+            <div>{li.category}</div>
+            {selectedCategory === i && (
+              <div className="bg-sky-500 w-auto h-1" />
+            )}
           </li>
         ))}
       </ul>

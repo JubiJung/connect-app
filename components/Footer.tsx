@@ -24,8 +24,10 @@ const Footer: React.FC = () => {
   return (
     <>
       {isCreateNewMeetup && <NewMeetup onDone={doneHandler} />}
-      <div>나만의 모임 만들기!</div>
-      <div onClick={addMeetupHandler}>➕</div>
+      <div className="fixed bottom-12">
+        <div>나만의 모임 만들기!</div>
+        <div onClick={addMeetupHandler}>➕</div>
+      </div>
     </>
   );
 };

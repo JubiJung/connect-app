@@ -1,12 +1,12 @@
-import { ReactNode, Suspense } from "react";
+import { ReactNode } from "react";
 import Header from "./Header";
-import Loading from "@/pages/loading";
+
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <>
+    <div className="flex flex-col container max-w-3xl h-dvh">
       <Header />
       <div>{children}</div>
-    </>
+    </div>
   );
 };
 export default Layout;

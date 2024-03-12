@@ -6,17 +6,21 @@ const Header: React.FC = () => {
   const { data: session } = useSession();
   if (session) {
     return (
-      <>
+      <div className="flex justify-around">
         <Link href="/">
-          <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <div className="bg-blue-500 text-white font-bold py-2 px-4 rounded">
             Connect
           </div>
         </Link>
-        <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          {session.user?.name}님 안녕하세요.
+        <div className="flex">
+          <div className="bg-blue-500 text-white font-bold py-2 px-4 rounded">
+            {session.user?.name}님 안녕하세요!
+          </div>
+          <button onClick={() => signOut({ callbackUrl: "/" })}>
+            로그아웃
+          </button>
         </div>
-        <button onClick={() => signOut({ callbackUrl: "/" })}>로그아웃</button>
-      </>
+      </div>
     );
   }
   return (

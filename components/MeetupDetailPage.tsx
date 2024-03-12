@@ -38,17 +38,20 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
         <div>{meetup.location}</div>
         <div>{meetup.description}</div>
         {meetup.username === session?.user?.name && (
-          <button
-            onClick={() =>
-              router.push(`/updatemeetup/${router.query.meetupId}`)
-            }
-          >
-            수정
-          </button>
+          <>
+            <button
+              onClick={() =>
+                router.push(`/updatemeetup/${router.query.meetupId}`)
+              }
+            >
+              수정
+            </button>
+            <button onClick={deleteHandler}>삭제</button>
+          </>
         )}
-        {meetup.username === session?.user?.name && (
-          <button onClick={deleteHandler}>삭제</button>
-        )}{" "}
+        <button onClick={() => confirm("이 모임에 가입할까요?")}>
+          가입하기
+        </button>
       </section>
       <NewComment meetup={meetup} />
     </>
