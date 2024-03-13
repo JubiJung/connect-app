@@ -1,9 +1,10 @@
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, TextareaHTMLAttributes, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Modal from "./Modal";
 import CategoryDropDown from "./CategoryDropDown";
+import addImgIcon from "@/public/image/add_image_icon.png";
 
 const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   const today = new Date();
@@ -22,7 +23,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     locationRef: useRef<HTMLInputElement>(null),
     imageRef: useRef<HTMLInputElement>(null),
     capacityRef: useRef<HTMLInputElement>(null),
-    descriptionRef: useRef<HTMLInputElement>(null),
+    descriptionRef: useRef<HTMLTextAreaElement>(null),
   };
   const router = useRouter();
 
@@ -85,9 +86,11 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
 
   return (
     <Modal title="어떤 모임을 만들어 볼까요?" onClose={onDone}>
-      <form onSubmit={submitHandler}>
-        <p>
-          <label htmlFor="image">대표 이미지</label>
+      <form className="my-2" onSubmit={submitHandler}>
+        <p className="py-1">
+          <label className="font-semibold" htmlFor="image">
+            대표 이미지
+          </label>
           <input
             ref={formRef.imageRef}
             id="image"
@@ -95,31 +98,60 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             accept="image/*"
           />
         </p>
-        <p>
-          <label htmlFor="title">모임명</label>
-          <input ref={formRef.titleRef} id="title" type="text" />
+        <p className="py-1">
+          <label className="font-semibold" htmlFor="title">
+            모임명
+          </label>
+          <input
+            className="block border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+            ref={formRef.titleRef}
+            id="title"
+            type="text"
+          />
         </p>
         <div>
-          <span>카테고리</span>
+          <span className="font-semibold mr-1">카테고리</span>
           <CategoryDropDown
             selectedCategory={selectedCategory}
             onSelectCategory={selectCategoryHandler}
           />
         </div>
-        <p>
-          <label htmlFor="capacity">정원</label>
-          <input ref={formRef.capacityRef} id="capacity" type="number" />
+        <p className="py-1">
+          <label className="font-semibold" htmlFor="capacity">
+            정원
+          </label>
+          <input
+            className="block border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+            ref={formRef.capacityRef}
+            id="capacity"
+            type="number"
+          />
         </p>
-        <p>
-          <label htmlFor="location">위치</label>
-          <input ref={formRef.locationRef} id="location" type="text" />
+        <p className="py-1">
+          <label className="font-semibold" htmlFor="location">
+            위치
+          </label>
+          <input
+            className="block border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+            ref={formRef.locationRef}
+            id="location"
+            type="text"
+          />
         </p>
-        <p>
-          <label htmlFor="description">모임소개</label>
-          <input ref={formRef.descriptionRef} id="description" type="text" />
+        <p className="py-1">
+          <label className="font-semibold" htmlFor="description">
+            모임 소개
+          </label>
+          <textarea
+            className="block border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+            ref={formRef.descriptionRef}
+            id="description"
+          />
         </p>
-        <button onClick={onDone}>취소</button>
-        <button type="submit">등록</button>
+        <div className="text-right">
+          <button onClick={onDone}>취소</button>
+          <button type="submit">등록</button>
+        </div>
       </form>
     </Modal>
   );

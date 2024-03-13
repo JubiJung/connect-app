@@ -3,6 +3,7 @@ import MainPage from "@/components/MainPage";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import Footer from "@/components/Footer";
 import dotenv from "dotenv";
+import { useSession } from "next-auth/react";
 import "@/app/globals.css";
 
 dotenv.config();
@@ -26,6 +27,7 @@ export type MeetupType = {
     }
   ];
   capacity: number;
+  applied: [];
 };
 
 const HomePage: React.FC<{ meetups: MeetupType[] }> = (props) => {
@@ -65,6 +67,7 @@ export async function getServerSideProps() {
         location: data.location,
         date: data.date,
         comments: data.comments || [],
+        applied: data.applied || [],
       })),
     },
   };

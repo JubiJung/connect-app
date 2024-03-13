@@ -8,7 +8,6 @@ import NewComment from "./NewComment";
 const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
   const { data: session } = useSession();
   const router = useRouter();
-
   const deleteHandler = async () => {
     const res = confirm("글을 삭제할까요?");
     if (res) {
@@ -24,6 +23,29 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
       alert("삭제 되었습니다.");
     }
   };
+
+  const joinMeetupHandler = async () => {
+    const res = confirm("이 모임에 가입할까요?");
+    if (session && res) {
+      const applyData = {
+        id: meetup.id,
+        applied: session?.user,
+      };
+      const response = await fetch("/api/join-meetup", {
+        method: "POST",
+        body: JSON.stringify(applyData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const result = await response.json();
+      router.push(`/meetup/${router.query.meetupId}`);
+      alert("모임에 가입 되었습니다.");
+      return;
+    }
+    alert("로그인 후 이용해 주세요.");
+    router.push(`/login`);
+  };
   return (
     <>
       <section>
@@ -33,7 +55,9 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
         <div>{meetup.title}</div>
         <div>{meetup.category.categoryTitle}</div>
         <div>{meetup.date}</div>
-        <div>{meetup.capacity}명</div>
+        <div>
+          {meetup.applied.length || 0}/{meetup.capacity}명
+        </div>
         <div>작성자 : {meetup.username}</div>
         <div>{meetup.location}</div>
         <div>{meetup.description}</div>
@@ -49,9 +73,7 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
             <button onClick={deleteHandler}>삭제</button>
           </>
         )}
-        <button onClick={() => confirm("이 모임에 가입할까요?")}>
-          가입하기
-        </button>
+        <button onClick={joinMeetupHandler}>가입하기</button>
       </section>
       <NewComment meetup={meetup} />
     </>

@@ -12,28 +12,34 @@ const RankedMeetup: React.FC<{ meetups: MeetupType[] }> = ({ meetups }) => {
     });
     return sortedMeetup;
   };
-  const sortedMeetups = sortMeetups(meetups);
+  const sortedMeetups = sortMeetups(meetups).slice(0, 12);
 
   return (
-    <>
-      <h1>지금 인기있는 모임이에요🔥</h1>
-      <div className="flex">
+    <section className="my-7">
+      <div className="text-lg mx-2 my-4 font-semibold">
+        지금 인기있는 모임이에요🔥
+      </div>
+      <ul className="container flex flex-row overflow-x-auto">
         {sortedMeetups.map((sortedMeetup) => (
-          <div
+          <li
+            className="mx-2 w-16 shrink-0"
             onClick={() => router.push(`/meetup/${sortedMeetup.id}`)}
             key={sortedMeetup.id}
           >
             <Image
+              className="size-16 rounded-xl"
               alt="image"
-              width="64"
-              height="64"
+              width={64}
+              height={64}
               src={sortedMeetup.image}
-            ></Image>
-            <div>{sortedMeetup.title}</div>
-          </div>
+            />
+            <div className="py-1 text-sm text-center line-clamp-2">
+              {sortedMeetup.title}
+            </div>
+          </li>
         ))}
-      </div>
-    </>
+      </ul>
+    </section>
   );
 };
 export default RankedMeetup;

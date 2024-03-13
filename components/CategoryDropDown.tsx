@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import categoryIcon from "@/public/image/arrow_down_icon.png";
 
 const categoryList = [
   { id: 1, categoryTitle: "스터디/독서" },
@@ -19,37 +22,45 @@ const CategoryDropDown: React.FC<{
   onSelectCategory: (li: { id: number; categoryTitle: string }) => void;
 }> = ({ selectedCategory, onSelectCategory }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const baseClass = `text-sm p-1 m-1 shrink-0 border border-solid border-gray-300 rounded-xl hover:bg-gray-500 hover:text-white`;
   return (
     <>
       <div>
-        {selectedCategory.categoryTitle}
-        <div
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-        >
-          🔻
+        <div className="inline-block border-solid border px-1 border-blue-400 rounded-md">
+          {selectedCategory.categoryTitle}
         </div>
+        <motion.div
+          className="inline-block mx-2"
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ ease: "easeOut", duration: 0.12 }}
+        >
+          <Image
+            className="m-auto"
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+            width={16}
+            height={16}
+            alt="categoryIcon"
+            src={categoryIcon}
+          ></Image>
+        </motion.div>
       </div>
       {isOpen && (
-        <ul>
+        <ul className="flex flex-wrap justify-around">
           {categoryList.map((li, i) => (
             <li
+              className={`${
+                selectedCategory.id === i + 1
+                  ? `bg-gray-500 text-white ${baseClass}`
+                  : `bg-transparent text-black ${baseClass}`
+              }`}
               onClick={() => {
                 onSelectCategory(li);
-                setIsOpen(false);
               }}
               key={li.id}
             >
-              <div
-                style={
-                  selectedCategory.id === i + 1
-                    ? { backgroundColor: "grey" }
-                    : { backgroundColor: "none" }
-                }
-              >
-                {li.categoryTitle}
-              </div>
+              <div>{li.categoryTitle}</div>
             </li>
           ))}
         </ul>

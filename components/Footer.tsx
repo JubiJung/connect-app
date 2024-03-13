@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import NewMeetup from "./NewMeetup";
+import addIcon from "@/public/image/add_icon.png";
 
 const Footer: React.FC = () => {
   const { data: session } = useSession();
@@ -24,9 +26,16 @@ const Footer: React.FC = () => {
   return (
     <>
       {isCreateNewMeetup && <NewMeetup onDone={doneHandler} />}
-      <div className="fixed bottom-12">
-        <div>나만의 모임 만들기!</div>
-        <div onClick={addMeetupHandler}>➕</div>
+      <div className="fixed bottom-12 right-7 lg:right-72">
+        <div className="text-sm mb-2">나만의 모임 만들기!</div>
+        <Image
+          className="mx-auto"
+          src={addIcon}
+          width={64}
+          height={64}
+          alt="addIcon"
+          onClick={addMeetupHandler}
+        ></Image>
       </div>
     </>
   );

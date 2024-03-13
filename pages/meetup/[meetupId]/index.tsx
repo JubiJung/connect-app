@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { GetServerSidePropsContext } from "next";
 import { ObjectId } from "mongodb";
@@ -32,7 +31,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     _id: new ObjectId(meetup),
   });
   const connectData = JSON.parse(JSON.stringify(connect));
-  const comments = connect?.comments || [];
   client.close();
   return {
     props: {
@@ -43,10 +41,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         capacity: connect?.capacity,
         image: connect?.image,
         category: connect?.category,
-        comments: comments,
+        comments: connect?.comments || [],
         username: connect?.username,
         date: connect?.date,
         location: connect?.location,
+        applied: connect?.applied || [],
       },
     },
   };
