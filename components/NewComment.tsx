@@ -47,9 +47,21 @@ const NewComment: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
 
   return (
     <>
-      <h2>this is comments List</h2>
-      <textarea value={commentValue} onChange={commentValueHandler} />
-      <button onClick={submitHandler}>등록</button>
+      <div className="m-5 p-3 border border-solid border-zinc-200">
+        <div className="font-semibold text-md">{meetup.username}</div>
+        <textarea
+          className="w-full focus:outline-none resize-none"
+          value={commentValue}
+          onChange={commentValueHandler}
+        />
+        <button
+          disabled={!commentValue && true}
+          className="block ml-auto p-1 border rounded-md font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200 disabled:text-zinc-400 disabled:bg-blue-200/50"
+          onClick={submitHandler}
+        >
+          등록
+        </button>
+      </div>
       {meetup.comments.map((comment, i) => (
         <CommentsList key={i} comment={comment} />
       ))}

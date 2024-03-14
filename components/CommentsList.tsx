@@ -49,13 +49,6 @@ const CommentsList: React.FC<{
     setCommentValue(e.target.value);
   };
 
-  let commentArea = (
-    <>
-      <span>{comment.date}</span>
-      <span>{comment.content}</span>
-    </>
-  );
-
   const editHandler = async () => {
     const response = await fetch("/api/edit-comment", {
       method: "POST",
@@ -81,27 +74,31 @@ const CommentsList: React.FC<{
   };
 
   return (
-    <div>
-      <span>{comment.username}</span>
+    <>
+      <div>{comment.username}</div>
       {isEdit ? (
-        <>
+        <div>
           <textarea value={commentValue} onChange={commentValueHandler} />
-          <button onClick={() => setIsEdit(false)}>취소</button>
-          <button onClick={editHandler}>확인</button>
-        </>
+          <div>
+            <button onClick={() => setIsEdit(false)}>취소</button>
+            <button onClick={editHandler}>확인</button>
+          </div>
+        </div>
       ) : (
-        commentArea
+        <div>
+          <div>{comment.date}</div>
+          <div>{comment.content}</div>
+        </div>
       )}
       {!isEdit && session?.user?.name === comment.username && (
-        <>
+        <div>
           <button onClick={() => setIsEdit(true)}>수정</button>
           <button onClick={deleteHandler}>삭제</button>
-        </>
+        </div>
       )}
-      {/* {isLoading && <p>삭제중</p>} */}
-    </div>
+    </>
+
+    // {/* {isLoading && <p>삭제중</p>} */}
   );
 };
 export default CommentsList;
-{
-}

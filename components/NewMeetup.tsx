@@ -1,6 +1,7 @@
 import { FormEvent, TextareaHTMLAttributes, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import Modal from "./Modal";
 import CategoryDropDown from "./CategoryDropDown";
@@ -18,6 +19,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     id: number;
     categoryTitle: string;
   }>({ id: 0, categoryTitle: "전체" });
+  const [imgPreview, setImgPreview] = useState<any>(addImgIcon);
   const formRef = {
     titleRef: useRef<HTMLInputElement>(null),
     locationRef: useRef<HTMLInputElement>(null),
@@ -26,9 +28,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     descriptionRef: useRef<HTMLTextAreaElement>(null),
   };
   const router = useRouter();
-
   const { data: session } = useSession();
-
   const selectCategoryHandler = (li: { id: number; categoryTitle: string }) => {
     setSelectedCategory(li);
   };
@@ -84,32 +84,56 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     // URL.revokeObjectURL(url);
   };
 
+  const imgPreviewHandler = () => {
+    const fileReader = new FileReader();
+    const inputImage = formRef.imageRef.current!.files![0];
+    if (inputImage) {
+      fileReader.readAsDataURL(inputImage);
+      fileReader.onload = () => {
+        setImgPreview(fileReader.result);
+      };
+    }
+  };
+
+  console.log(imgPreview);
   return (
     <Modal title="어떤 모임을 만들어 볼까요?" onClose={onDone}>
       <form className="my-2" onSubmit={submitHandler}>
         <p className="py-1">
           <label className="font-semibold" htmlFor="image">
-            대표 이미지
+            <div className="mx-auto text-center">대표 이미지</div>
+            <Image
+              className="mx-auto size-20 rounded-full"
+              width={80}
+              height={80}
+              alt="image"
+              src={imgPreview}
+            ></Image>
+            <motion.input
+              className="hidden"
+              onChange={imgPreviewHandler}
+              ref={formRef.imageRef}
+              id="image"
+              type="file"
+              accept="image/*"
+              required
+            />
           </label>
-          <input
-            ref={formRef.imageRef}
-            id="image"
-            type="file"
-            accept="image/*"
-          />
         </p>
         <p className="py-1">
           <label className="font-semibold" htmlFor="title">
             모임명
           </label>
-          <input
-            className="block border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+          <motion.input
+            whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
+            className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
             ref={formRef.titleRef}
             id="title"
             type="text"
+            required
           />
         </p>
-        <div>
+        <div className="py-1">
           <span className="font-semibold mr-1">카테고리</span>
           <CategoryDropDown
             selectedCategory={selectedCategory}
@@ -120,37 +144,57 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
           <label className="font-semibold" htmlFor="capacity">
             정원
           </label>
-          <input
-            className="block border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+          <motion.input
+            whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
+            className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
             ref={formRef.capacityRef}
             id="capacity"
             type="number"
+            min={0}
+            required
           />
         </p>
         <p className="py-1">
           <label className="font-semibold" htmlFor="location">
             위치
           </label>
-          <input
-            className="block border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+          <motion.input
+            whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
+            className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
             ref={formRef.locationRef}
             id="location"
             type="text"
+            required
           />
         </p>
         <p className="py-1">
           <label className="font-semibold" htmlFor="description">
             모임 소개
           </label>
-          <textarea
-            className="block border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+          <motion.textarea
+            whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
+            className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md w-2/3 resize-none"
             ref={formRef.descriptionRef}
             id="description"
+            required
           />
         </p>
-        <div className="text-right">
-          <button onClick={onDone}>취소</button>
-          <button type="submit">등록</button>
+        <div className="text-right my-1">
+          <motion.button
+            type="button"
+            whileHover={{ y: [0, -3], transition: { duration: 0.3 } }}
+            className="px-2 mx-1 border rounded-md font-semibold text-zinc-600 bg-zinc-100 border-zinc-200 border-solid hover:bg-zinc-200"
+            onClick={onDone}
+          >
+            취소
+          </motion.button>
+          <motion.button
+            whileHover={{ y: [0, -3], transition: { duration: 0.3 } }}
+            className="px-2 mx-1 border rounded-md font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200"
+            type="submit"
+          >
+            등록
+          </motion.button>
         </div>
       </form>
     </Modal>

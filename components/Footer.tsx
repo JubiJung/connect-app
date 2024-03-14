@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import NewMeetup from "./NewMeetup";
 import addIcon from "@/public/image/add_icon.png";
@@ -25,7 +26,9 @@ const Footer: React.FC = () => {
 
   return (
     <>
-      {isCreateNewMeetup && <NewMeetup onDone={doneHandler} />}
+      <AnimatePresence>
+        {isCreateNewMeetup && <NewMeetup onDone={doneHandler} />}
+      </AnimatePresence>
       <div className="fixed bottom-12 right-7 lg:right-72">
         <div className="text-sm mb-2">나만의 모임 만들기!</div>
         <Image

@@ -25,7 +25,7 @@ const CategoryDropDown: React.FC<{
   const baseClass = `text-sm p-1 m-1 shrink-0 border border-solid border-gray-300 rounded-xl hover:bg-gray-500 hover:text-white`;
   return (
     <>
-      <div>
+      <div className="inline-block">
         <div className="inline-block border-solid border px-1 border-blue-400 rounded-md">
           {selectedCategory.categoryTitle}
         </div>
@@ -49,7 +49,9 @@ const CategoryDropDown: React.FC<{
       {isOpen && (
         <ul className="flex flex-wrap justify-around">
           {categoryList.map((li, i) => (
-            <li
+            <motion.li
+              animate={{ opacity: [0, 0.5, 1], scale: [0, 1.1, 1] }}
+              transition={{ type: "spring", stiffness: 80 }}
               className={`${
                 selectedCategory.id === i + 1
                   ? `bg-gray-500 text-white ${baseClass}`
@@ -61,7 +63,7 @@ const CategoryDropDown: React.FC<{
               key={li.id}
             >
               <div>{li.categoryTitle}</div>
-            </li>
+            </motion.li>
           ))}
         </ul>
       )}
