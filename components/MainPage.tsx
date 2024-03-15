@@ -1,5 +1,4 @@
 import MeetupList from "./MeetupList";
-import Category from "./Category";
 import { MeetupType } from "@/pages";
 import RankedMeetup from "./RankedMeetup";
 

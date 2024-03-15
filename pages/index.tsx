@@ -1,11 +1,12 @@
 import React from "react";
+import dotenv from "dotenv";
 import MainPage from "@/components/MainPage";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import Footer from "@/components/Footer";
-import dotenv from "dotenv";
-import { useSession } from "next-auth/react";
+import { NextPageWithLayout } from "./_app";
+import Layout from "@/components/Layout";
+import type { ReactElement } from "react";
 import "@/app/globals.css";
-
 dotenv.config();
 
 export type MeetupType = {
@@ -30,15 +31,21 @@ export type MeetupType = {
   applied: [];
 };
 
-const HomePage: React.FC<{ meetups: MeetupType[] }> = (props) => {
+const HomePage: NextPageWithLayout<{ meetups: MeetupType[] }> = ({
+  meetups,
+}) => {
   return (
     <>
-      <MainPage meetups={props.meetups}></MainPage>
+      <MainPage meetups={meetups}></MainPage>
       <Footer />
     </>
   );
 };
 export default HomePage;
+
+HomePage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getServerSideProps() {
   const uri =

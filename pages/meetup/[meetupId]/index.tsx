@@ -1,10 +1,13 @@
+import { ReactElement } from "react";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { GetServerSidePropsContext } from "next";
 import { ObjectId } from "mongodb";
 import { MeetupType } from "@/pages";
 import MeetupDetailPage from "@/components/MeetupDetailPage";
+import Layout from "@/components/Layout";
+import { NextPageWithLayout } from "@/pages/_app";
 
-const MeetupPage: React.FC<{ meetup: MeetupType }> = (props) => {
+const MeetupPage: NextPageWithLayout<{ meetup: MeetupType }> = (props) => {
   return (
     <>
       <MeetupDetailPage meetup={props.meetup} />
@@ -13,6 +16,10 @@ const MeetupPage: React.FC<{ meetup: MeetupType }> = (props) => {
 };
 
 export default MeetupPage;
+
+MeetupPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const meetup = context.params!.meetupId as string;

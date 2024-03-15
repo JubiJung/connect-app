@@ -50,13 +50,13 @@ const NewComment: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
       <div className="m-5 p-3 border border-solid border-zinc-200">
         <div className="font-semibold text-md">{meetup.username}</div>
         <textarea
-          className="w-full focus:outline-none resize-none"
+          className="w-full resize-none rounded-sm focus:outline focus:outline-2 focus:outline-blue-400"
           value={commentValue}
           onChange={commentValueHandler}
         />
         <button
           disabled={!commentValue && true}
-          className="block ml-auto p-1 border rounded-md font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200 disabled:text-zinc-400 disabled:bg-blue-200/50"
+          className="block ml-auto p-1 border rounded-md text-sm font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200 disabled:text-zinc-400 disabled:bg-blue-200/50"
           onClick={submitHandler}
         >
           등록

@@ -51,7 +51,7 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
   };
   return (
     <>
-      <section className="m-5 h-full">
+      <section className="m-5 h-3/5">
         <div className="mx-auto my-4 flex">
           <Image
             className="size-32 rounded-xl"

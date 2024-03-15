@@ -74,29 +74,57 @@ const CommentsList: React.FC<{
   };
 
   return (
-    <>
-      <div>{comment.username}</div>
+    <div className="p-3 border-b bottom-1">
+      <div className="font-semibold">{comment.username}</div>
       {isEdit ? (
         <div>
-          <textarea value={commentValue} onChange={commentValueHandler} />
-          <div>
-            <button onClick={() => setIsEdit(false)}>취소</button>
-            <button onClick={editHandler}>확인</button>
+          <textarea
+            className="resize-none w-full rounded-sm focus:outline focus:outline-2 focus:outline-blue-400"
+            value={commentValue}
+            onChange={commentValueHandler}
+          />
+          <div className="flex justify-end my-1">
+            <button
+              className="p-1 border text-sm rounded-md font-semibold text-zinc-600 bg-zinc-100 border-zinc-200 border-solid hover:bg-zinc-200 hover:underline hover:underline-offset-1 hover:decoration-zinc-600"
+              onClick={() => {
+                setIsEdit(false);
+                setCommentValue(comment.content);
+              }}
+            >
+              취소
+            </button>
+            <button
+              disabled={!commentValue && true}
+              className="p-1 border ml-3 rounded-md text-sm font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200 disabled:text-zinc-400 disabled:bg-blue-200/50"
+              onClick={editHandler}
+            >
+              확인
+            </button>
           </div>
         </div>
       ) : (
-        <div>
-          <div>{comment.date}</div>
-          <div>{comment.content}</div>
-        </div>
+        <>
+          <div className="my-2 w-full break-words">{comment.content}</div>
+          <div className="text-sm text-gray-500">{comment.date}</div>
+        </>
       )}
       {!isEdit && session?.user?.name === comment.username && (
-        <div>
-          <button onClick={() => setIsEdit(true)}>수정</button>
-          <button onClick={deleteHandler}>삭제</button>
+        <div className="my-1 flex justify-end">
+          <button
+            className="p-1 border rounded-md text-sm font-semibold text-red-600 bg-zinc-100 border-zinc-200 border-solid  hover:bg-zinc-200 hover:underline hover:underline-offset-1 hover:decoration-red-600"
+            onClick={deleteHandler}
+          >
+            삭제
+          </button>
+          <button
+            className="p-1 ml-3 border text-sm rounded-md font-semibold text-zinc-600 bg-zinc-100 border-zinc-200 border-solid hover:bg-zinc-200 hover:underline hover:underline-offset-1 hover:decoration-zinc-600"
+            onClick={() => setIsEdit(true)}
+          >
+            수정
+          </button>
         </div>
       )}
-    </>
+    </div>
 
     // {/* {isLoading && <p>삭제중</p>} */}
   );
