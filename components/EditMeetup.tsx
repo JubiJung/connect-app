@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { MeetupType } from "@/pages";
 import CategoryDropDown from "./CategoryDropDown";
+import { motion } from "framer-motion";
 
 const EditMeetup: React.FC<{
   meetup: MeetupType;
@@ -12,17 +13,17 @@ const EditMeetup: React.FC<{
     id: number;
     categoryTitle: string;
   }>(meetup.category);
+  const today = new Date();
   const router = useRouter();
   const { data: session } = useSession();
+  const [imgValue, setImgValue] = useState<string>(meetup.image);
   const formRef = {
     titleRef: useRef<HTMLInputElement>(null),
     locationRef: useRef<HTMLInputElement>(null),
     imageRef: useRef<HTMLInputElement>(null),
     capacityRef: useRef<HTMLInputElement>(null),
-    descriptionRef: useRef<HTMLInputElement>(null),
+    descriptionRef: useRef<HTMLTextAreaElement>(null),
   };
-  const [imgPreview, setImgPreview] = useState<any>(meetup.image);
-  const today = new Date();
   const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
     2,
     "0"
@@ -33,13 +34,13 @@ const EditMeetup: React.FC<{
     setSelectedCategory(li);
   };
 
-  const imgPreviewHandler = () => {
+  const imgValueHandler = () => {
     const fileReader = new FileReader();
     const inputImage = formRef.imageRef.current!.files![0];
     if (inputImage) {
       fileReader.readAsDataURL(inputImage);
       fileReader.onload = () => {
-        setImgPreview(fileReader.result);
+        setImgValue(fileReader.result as string);
       };
     }
   };
@@ -49,6 +50,7 @@ const EditMeetup: React.FC<{
     description: string;
     category: { id: number; categoryTitle: string };
     capacity: number;
+    location: string;
     image: any;
     username: any;
   }) => {
@@ -67,91 +69,127 @@ const EditMeetup: React.FC<{
     e.preventDefault();
     const checkSubmit = confirm("모임을 등록할까요?");
     if (!checkSubmit) return;
-    const fileReader = new FileReader();
-    const inputImage = formRef.imageRef.current!.files![0];
     const enteredTitle = formRef.titleRef.current!.value;
     const enteredDescription = formRef.descriptionRef.current!.value;
     const enteredCategory = selectedCategory;
     const enteredCapacity = parseInt(formRef.capacityRef.current!.value);
-    fileReader.readAsDataURL(inputImage);
-    fileReader.onload = () => {
-      const meetupData = {
-        id: meetup.id,
-        comments: meetup.comments,
-        date: todayDate,
-        image: fileReader.result,
-        title: enteredTitle,
-        category: enteredCategory,
-        capacity: enteredCapacity,
-        description: enteredDescription,
-        username: session?.user?.name,
-      };
-      addMeetupHandler(meetupData);
+    const enteredLocation = formRef.locationRef.current!.value;
+    const meetupData = {
+      id: meetup.id,
+      comments: meetup.comments,
+      date: todayDate,
+      image: imgValue,
+      title: enteredTitle,
+      category: enteredCategory,
+      capacity: enteredCapacity,
+      description: enteredDescription,
+      username: session?.user?.name,
+      location: enteredLocation,
     };
+    addMeetupHandler(meetupData);
   };
+
   return (
-    <form onSubmit={submitHandler}>
-      <p>
-        <label htmlFor="image">대표 이미지</label>
-        <Image src={imgPreview} alt="image" width="64" height="64"></Image>
-        <input
-          ref={formRef.imageRef}
-          onChange={imgPreviewHandler}
-          id="image"
-          type="file"
-          accept="image/*"
-        />
-      </p>
-      <p>
-        <label htmlFor="title">모임명</label>
-        <input
+    <form onSubmit={submitHandler} className="m-5 h-3/5">
+      <div className="py-1">
+        <label className="font-semibold" htmlFor="image">
+          <div className="mx-auto text-center">대표 이미지</div>
+          <Image
+            className="mx-auto size-24 rounded-full"
+            width={96}
+            height={96}
+            src={imgValue}
+            alt="image"
+          ></Image>
+          <motion.input
+            className="hidden"
+            ref={formRef.imageRef}
+            onChange={imgValueHandler}
+            id="image"
+            type="file"
+            accept="image/*"
+          />
+        </label>
+      </div>
+      <div className="py-1">
+        <label className="font-semibold" htmlFor="title">
+          모임명
+        </label>
+        <motion.input
+          whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
+          className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
           defaultValue={meetup.title}
           ref={formRef.titleRef}
           id="title"
           type="text"
+          required
         />
-      </p>
-      <div>
-        <span>카테고리</span>
+      </div>
+      <div className="py-1 max-w-md">
+        <span className="font-semibold mr-1">카테고리</span>
         <CategoryDropDown
           selectedCategory={selectedCategory}
           onSelectCategory={selectCategoryHandler}
         />
       </div>
-      <p>
-        <label htmlFor="location">위치</label>
-        <input
+      <div className="py-1">
+        <label className="font-semibold" htmlFor="capacity">
+          정원
+        </label>
+        <motion.input
+          whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
+          className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
+          defaultValue={meetup.capacity}
+          ref={formRef.capacityRef}
+          id="capacity"
+          type="number"
+          min={0}
+          required
+        />
+      </div>
+      <div className="py-1">
+        <label className="font-semibold" htmlFor="location">
+          위치
+        </label>
+        <motion.input
+          whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
+          className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
           defaultValue={meetup.location}
           ref={formRef.locationRef}
           id="location"
           type="text"
         />
-      </p>
-      <p>
-        <label htmlFor="capacity">정원</label>
-        <input
-          defaultValue={meetup.capacity}
-          ref={formRef.capacityRef}
-          id="capacity"
-          type="number"
-        />
-      </p>
-      <p>
-        <label htmlFor="description">모임소개</label>
-        <input
+      </div>
+      <div className="py-1">
+        <label className="font-semibold" htmlFor="description">
+          모임소개
+        </label>
+        <motion.textarea
+          whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
+          className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md w-2/3 resize-none"
           defaultValue={meetup.description}
           ref={formRef.descriptionRef}
           id="description"
-          type="text"
+          required
         />
-      </p>
-      <button
-        type="button"
-        onClick={() => router.push(`/meetup/${router.query.meetupId}`)}
-      >
-        취소
-      </button>
-      <button type="submit">등록</button>
+      </div>
+      <div className="text-right my-1">
+        <motion.button
+          whileHover={{ y: [0, -3], transition: { duration: 0.3 } }}
+          className="px-2 mx-1 border rounded-md font-semibold text-zinc-600 bg-zinc-100 border-zinc-200 border-solid hover:bg-zinc-200"
+          type="button"
+          onClick={() => router.push(`/meetup/${router.query.meetupId}`)}
+        >
+          취소
+        </motion.button>
+        <motion.button
+          whileHover={{ y: [0, -3], transition: { duration: 0.3 } }}
+          className="px-2 mx-1 border rounded-md font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200"
+          type="submit"
+        >
+          등록
+        </motion.button>
+      </div>
     </form>
   );
 };

@@ -8,13 +8,9 @@ import CategoryDropDown from "./CategoryDropDown";
 import addImgIcon from "@/public/image/add_image_icon.png";
 
 const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
+  const router = useRouter();
+  const { data: session } = useSession();
   const today = new Date();
-  const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
-    2,
-    "0"
-  )}/${String(today.getDate()).padStart(2, "0")} ${String(
-    today.getHours()
-  ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
   const [selectedCategory, setSelectedCategory] = useState<{
     id: number;
     categoryTitle: string;
@@ -27,8 +23,14 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     capacityRef: useRef<HTMLInputElement>(null),
     descriptionRef: useRef<HTMLTextAreaElement>(null),
   };
-  const router = useRouter();
-  const { data: session } = useSession();
+
+  const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
+    2,
+    "0"
+  )}/${String(today.getDate()).padStart(2, "0")} ${String(
+    today.getHours()
+  ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
+
   const selectCategoryHandler = (li: { id: number; categoryTitle: string }) => {
     setSelectedCategory(li);
   };
@@ -54,6 +56,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     router.push("/");
     onDone();
   };
+
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     const checkSubmit = confirm("모임을 등록할까요?");
@@ -81,7 +84,6 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
         addMeetupHandler(meetupData);
       };
     }
-    // URL.revokeObjectURL(url);
   };
 
   const imgPreviewHandler = () => {
@@ -95,11 +97,10 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     }
   };
 
-  console.log(imgPreview);
   return (
     <Modal title="어떤 모임을 만들어 볼까요?" onClose={onDone}>
       <form className="my-2" onSubmit={submitHandler}>
-        <p className="py-1">
+        <div className="py-1">
           <label className="font-semibold" htmlFor="image">
             <div className="mx-auto text-center">대표 이미지</div>
             <Image
@@ -119,8 +120,8 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
               required
             />
           </label>
-        </p>
-        <p className="py-1">
+        </div>
+        <div className="py-1">
           <label className="font-semibold" htmlFor="title">
             모임명
           </label>
@@ -132,7 +133,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             type="text"
             required
           />
-        </p>
+        </div>
         <div className="py-1">
           <span className="font-semibold mr-1">카테고리</span>
           <CategoryDropDown
@@ -140,7 +141,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             onSelectCategory={selectCategoryHandler}
           />
         </div>
-        <p className="py-1">
+        <div className="py-1">
           <label className="font-semibold" htmlFor="capacity">
             정원
           </label>
@@ -153,8 +154,8 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             min={0}
             required
           />
-        </p>
-        <p className="py-1">
+        </div>
+        <div className="py-1">
           <label className="font-semibold" htmlFor="location">
             위치
           </label>
@@ -166,8 +167,8 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             type="text"
             required
           />
-        </p>
-        <p className="py-1">
+        </div>
+        <div className="py-1">
           <label className="font-semibold" htmlFor="description">
             모임 소개
           </label>
@@ -178,7 +179,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             id="description"
             required
           />
-        </p>
+        </div>
         <div className="text-right my-1">
           <motion.button
             type="button"

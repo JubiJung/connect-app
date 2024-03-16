@@ -36,7 +36,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     _id: new ObjectId(meetup),
   });
   const connectData = JSON.parse(JSON.stringify(connect));
-  const comment = connect?.comments || [];
   client.close();
   return {
     props: {
@@ -47,8 +46,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         capacity: connect?.capacity,
         image: connect?.image,
         category: connect?.category,
-        comments: comment,
+        comments: connect?.comments || [],
         username: connect?.username,
+        location: connect?.location,
       },
     },
   };
