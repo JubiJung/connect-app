@@ -1,7 +1,7 @@
-import { FormEvent, TextareaHTMLAttributes, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { motion, useAnimate } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Modal from "./Modal";
 import CategoryDropDown from "./CategoryDropDown";
@@ -104,7 +104,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
           <label className="font-semibold" htmlFor="image">
             <div className="mx-auto text-center">대표 이미지</div>
             <Image
-              className="mx-auto size-20 rounded-full"
+              className="mx-auto size-20 rounded-full cursor-pointer"
               width={80}
               height={80}
               alt="image"

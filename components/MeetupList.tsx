@@ -21,9 +21,15 @@ const MeetupList: React.FC<{ meetups: MeetupType[] }> = ({ meetups }) => {
       onCategorySelector={categorySelectHandler}
     >
       <ul className="flex flex-col p-2 h-screen">
-        {filteredList.map((meetup) => (
-          <MeetupItem key={meetup.id} meetup={meetup} />
-        ))}
+        {filteredList.length !== 0 ? (
+          filteredList.map((meetup) => (
+            <MeetupItem key={meetup.id} meetup={meetup} />
+          ))
+        ) : (
+          <div className="text-center text-xl font-bold">
+            새로운 모임을 만들어보세요!
+          </div>
+        )}
       </ul>
     </Category>
   );

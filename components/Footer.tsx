@@ -30,9 +30,9 @@ const Footer: React.FC = () => {
         {isCreateNewMeetup && <NewMeetup onDone={doneHandler} />}
       </AnimatePresence>
       <div className="fixed bottom-12 right-7 lg:right-72">
-        <div className="text-sm mb-2">나만의 모임 만들기!</div>
+        <div className="text-sm mb-2 font-bold">나만의 모임 만들기!</div>
         <Image
-          className="mx-auto"
+          className="mx-auto cursor-pointer"
           src={addIcon}
           width={64}
           height={64}

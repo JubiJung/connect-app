@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { motion } from "framer-motion";
 
 const categoryList = [
   { id: 0, category: "전체" },
@@ -19,16 +20,13 @@ const categoryList = [
 ];
 
 const settings = {
+  dots: false,
   className: "center",
   infinite: false,
-  slidesToShow: 5,
+  slidesToShow: 10,
+  slidesToScroll: 2,
   swipeToSlide: true,
   variableWidth: true,
-  afterChange: function (index: number) {
-    console.log(
-      `Slider Changed to: ${index + 1}, background: #222; color: #bada55`
-    );
-  },
   responsive: [
     {
       breakpoint: 1024,
@@ -38,17 +36,10 @@ const settings = {
       },
     },
     {
-      breakpoint: 600,
+      breakpoint: 675,
       settings: {
-        slidesToShow: 5,
-        slidesToScroll: 5,
-      },
-    },
-    {
-      breakpoint: 320,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 5,
+        slidesToShow: 1,
+        slidesToScroll: 1,
       },
     },
   ],
@@ -71,9 +62,17 @@ const Category: React.FC<{
                 onCategorySelector(li.id);
               }}
             >
-              <div>{li.category}</div>
-              {selectedCategory === i && (
-                <div className="bg-sky-500 w-auto h-1" />
+              {selectedCategory === i ? (
+                <>
+                  <div className="cursor-pointer font-bold">{li.category}</div>
+                  <motion.div
+                    layoutId="tab-indicator"
+                    transition={{ duration: "0.14" }}
+                    className="bg-sky-500 w-auto h-1"
+                  />
+                </>
+              ) : (
+                <div className="cursor-pointer">{li.category}</div>
               )}
             </li>
           ))}

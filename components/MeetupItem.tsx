@@ -11,7 +11,11 @@ const MeetupItem: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
     router.push(`/meetup/${meetup.id}`);
   };
   return (
-    <li className="flex mb-4" onClick={showDetailHandler} key={meetup.id}>
+    <li
+      className="flex mb-4 sm:w-fit cursor-pointer"
+      onClick={showDetailHandler}
+      key={meetup.id}
+    >
       <Image
         width={72}
         height={72}

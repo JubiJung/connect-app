@@ -20,7 +20,7 @@ const Header: React.FC = () => {
           <Image
             alt="lockImg"
             src={unlockIcon}
-            className="w-7 h-7 mx-2"
+            className="w-7 h-7 mx-2 cursor-pointer"
             onClick={() => signOut({ callbackUrl: "/" })}
           />
         </div>

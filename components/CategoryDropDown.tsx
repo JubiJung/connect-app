@@ -35,7 +35,7 @@ const CategoryDropDown: React.FC<{
           transition={{ ease: "easeOut", duration: 0.12 }}
         >
           <Image
-            className="m-auto"
+            className="m-auto cursor-pointer"
             onClick={() => {
               setIsOpen(!isOpen);
             }}
@@ -52,9 +52,9 @@ const CategoryDropDown: React.FC<{
             <motion.li
               animate={{ opacity: [0, 0.5, 1], scale: [0, 1.1, 1] }}
               transition={{ type: "spring", stiffness: 80 }}
-              className={`${
+              className={`cursor-pointer ${
                 selectedCategory.id === i + 1
-                  ? `bg-gray-500 text-white ${baseClass}`
+                  ? `bg-gray-500 text-white ${baseClass} `
                   : `bg-transparent text-black ${baseClass}`
               }`}
               onClick={() => {
