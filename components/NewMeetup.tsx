@@ -2,6 +2,7 @@ import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
+import imageCompression from "browser-image-compression";
 import Image from "next/image";
 import Modal from "./Modal";
 import CategoryDropDown from "./CategoryDropDown";
@@ -15,7 +16,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     id: number;
     categoryTitle: string;
   }>({ id: 0, categoryTitle: "전체" });
-  const [imgPreview, setImgPreview] = useState<any>(addImgIcon);
+  const [imgData, setImgData] = useState<any>(addImgIcon);
   const formRef = {
     titleRef: useRef<HTMLInputElement>(null),
     locationRef: useRef<HTMLInputElement>(null),
@@ -23,7 +24,6 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     capacityRef: useRef<HTMLInputElement>(null),
     descriptionRef: useRef<HTMLTextAreaElement>(null),
   };
-
   const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
     2,
     "0"
@@ -61,54 +61,57 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     e.preventDefault();
     const checkSubmit = confirm("모임을 등록할까요?");
     if (!checkSubmit) return;
-    const fileReader = new FileReader();
     const enteredTitle = formRef.titleRef.current!.value;
     const enteredDescription = formRef.descriptionRef.current!.value;
     const enteredLocation = formRef.locationRef.current!.value;
     const enteredCategory = selectedCategory;
     const enteredCapacity = parseInt(formRef.capacityRef.current!.value);
-    const inputImage = formRef.imageRef.current!.files![0];
-    if (inputImage) {
-      fileReader.readAsDataURL(inputImage);
-      fileReader.onload = () => {
-        const meetupData = {
-          image: fileReader.result,
-          title: enteredTitle,
-          category: enteredCategory,
-          capacity: enteredCapacity,
-          description: enteredDescription,
-          username: session?.user?.name,
-          location: enteredLocation,
-          date: todayDate,
-        };
-        addMeetupHandler(meetupData);
-      };
-    }
+    const meetupData = {
+      image: imgData,
+      title: enteredTitle,
+      category: enteredCategory,
+      capacity: enteredCapacity,
+      description: enteredDescription,
+      username: session?.user?.name,
+      location: enteredLocation,
+      date: todayDate,
+    };
+    addMeetupHandler(meetupData);
   };
 
-  const imgPreviewHandler = () => {
+  const imgPreviewHandler = async () => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 240,
+      useWebWorker: true,
+    };
     const fileReader = new FileReader();
     const inputImage = formRef.imageRef.current!.files![0];
+    const compressedFile = await imageCompression(inputImage, options);
     if (inputImage) {
-      fileReader.readAsDataURL(inputImage);
+      fileReader.readAsDataURL(compressedFile);
       fileReader.onload = () => {
-        setImgPreview(fileReader.result);
+        setImgData(fileReader.result);
       };
     }
   };
 
   return (
     <Modal title="어떤 모임을 만들어 볼까요?" onClose={onDone}>
-      <form className="my-2" onSubmit={submitHandler}>
+      <form
+        style={{ fontFamily: "Pretendard Variable" }}
+        className="my-2"
+        onSubmit={submitHandler}
+      >
         <div className="py-1">
-          <label className="font-semibold" htmlFor="image">
+          <label className="font-semibold font-score" htmlFor="image">
             <div className="mx-auto text-center">대표 이미지</div>
             <Image
               className="mx-auto size-20 rounded-full cursor-pointer"
               width={80}
               height={80}
               alt="image"
-              src={imgPreview}
+              src={imgData}
             ></Image>
             <motion.input
               className="hidden"
@@ -120,6 +123,9 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
               required
             />
           </label>
+          <div className="my-1 text-center text-red-600">
+            이미지를 추가해 주세요!
+          </div>
         </div>
         <div className="py-1">
           <label className="font-semibold" htmlFor="title">
@@ -191,7 +197,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
           </motion.button>
           <motion.button
             whileHover={{ y: [0, -3], transition: { duration: 0.3 } }}
-            className="px-2 mx-1 border rounded-md font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200"
+            className="font-pretendard px-2 mx-1 border rounded-md font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200"
             type="submit"
           >
             등록

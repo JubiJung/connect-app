@@ -1,21 +1,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { categoryList } from "./Category";
 import categoryIcon from "@/public/image/arrow_down_icon.png";
-
-const categoryList = [
-  { id: 1, categoryTitle: "스터디/독서" },
-  { id: 2, categoryTitle: "악기" },
-  { id: 3, categoryTitle: "베이킹" },
-  { id: 4, categoryTitle: "육아" },
-  { id: 5, categoryTitle: "공예" },
-  { id: 6, categoryTitle: "게임/보드게임" },
-  { id: 7, categoryTitle: "음식" },
-  { id: 8, categoryTitle: "문화/예술" },
-  { id: 9, categoryTitle: "봉사활동" },
-  { id: 10, categoryTitle: "반려동물" },
-  { id: 11, categoryTitle: "스포츠" },
-];
 
 const CategoryDropDown: React.FC<{
   selectedCategory: { id: number; categoryTitle: string };
@@ -48,7 +35,7 @@ const CategoryDropDown: React.FC<{
       </div>
       {isOpen && (
         <ul className="flex flex-wrap justify-around">
-          {categoryList.map((li, i) => (
+          {categoryList.slice(1, 13).map((li, i) => (
             <motion.li
               animate={{ opacity: [0, 0.5, 1], scale: [0, 1.1, 1] }}
               transition={{ type: "spring", stiffness: 80 }}

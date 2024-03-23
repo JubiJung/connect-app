@@ -9,7 +9,12 @@ module.exports = {
     container: {
       center: true,
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        score: ["var(--font-score)"],
+        pretendard: ["var(--font-pretendard)"],
+      },
+    },
   },
   plugins: [],
 };

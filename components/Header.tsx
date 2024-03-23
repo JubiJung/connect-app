@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import unlockIcon from "@/public/image/unlock_icon.png";
 import lockIcon from "@/public/image/lock_icon.png";
@@ -9,9 +8,9 @@ const Header: React.FC = () => {
   const { data: session } = useSession();
   if (session) {
     return (
-      <div className="flex justify-between py-3 px-2">
+      <div className="flex items-center justify-between py-3 px-2">
         <Link className="my-auto" href="/">
-          <div className="text-blue-400 text-3xl font-bold">Connect</div>
+          <div className="text-blue-400 text-4xl font-bold">Connect</div>
         </Link>
         <div className="flex">
           <div className="bg-blue-500 text-white font-bold py-1 px-4 rounded">
@@ -28,7 +27,7 @@ const Header: React.FC = () => {
     );
   }
   return (
-    <div className="flex justify-between py-3 px-2">
+    <div className="flex items-center justify-between py-3 px-2">
       <Link className="my-auto" href="/">
         <div className="text-blue-400 text-3xl font-bold">Connect</div>
       </Link>

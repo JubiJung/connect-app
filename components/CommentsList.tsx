@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useEffect } from "react";
+import { ChangeEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -10,11 +10,11 @@ const CommentsList: React.FC<{
     username: string;
     date: string;
   };
-}> = ({ comment }) => {
+  meetupUsername: string;
+}> = ({ comment, meetupUsername }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [isEdit, setIsEdit] = useState<Boolean>(false);
-  // const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [commentValue, setCommentValue] = useState<string>(comment.content);
   const today = new Date();
   const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
@@ -23,19 +23,6 @@ const CommentsList: React.FC<{
   )}/${String(today.getDate()).padStart(2, "0")} ${String(
     today.getHours()
   ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
-
-  // useEffect(() => {
-  //   if (router) {
-  //     router.events.on("routeChangeStart", () => {
-  //       setIsLoading(true);
-  //     });
-  //   }
-  //   return () => {
-  //     router.events.off("routeChangeStart", () => {
-  //       setIsLoading(true);
-  //     });
-  //   };
-  // }, [router]);
 
   const commentData = {
     postId: comment.postId,
@@ -75,7 +62,12 @@ const CommentsList: React.FC<{
 
   return (
     <div className="p-3 border-b bottom-1">
-      <div className="font-semibold">{comment.username}</div>
+      <div className="inline-block font-semibold">{comment.username}</div>
+      {session?.user?.name === meetupUsername && (
+        <div className="px-2 mx-2 inline-block rounded-full bg-orange-400 text-white font-semibold text-sm ">
+          글쓴이
+        </div>
+      )}
       {isEdit ? (
         <div>
           <textarea
@@ -125,8 +117,6 @@ const CommentsList: React.FC<{
         </div>
       )}
     </div>
-
-    // {/* {isLoading && <p>삭제중</p>} */}
   );
 };
 export default CommentsList;

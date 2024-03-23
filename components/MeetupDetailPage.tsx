@@ -1,11 +1,9 @@
-import { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { MeetupType } from "@/pages";
 import NewComment from "./NewComment";
-import locationIcon from "@/public/image/location_icon.png";
-import userIcon from "@/public/image/user_icon.png";
+import MeetupInform from "./MeetupInform";
 
 const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
   const { data: session } = useSession();
@@ -61,38 +59,12 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
             height={128}
           />
           <div className="px-3 my-auto">
-            <div className="">{meetup.date}</div>
+            <div className="font-semibold text-gray-600">{meetup.date}</div>
             <div className="font-extrabold text-2xl">{meetup.title}</div>
             <div className="font-semibold text-sm text-gray-500">
-              <div>{meetup.username}님</div>
-              <div className="flex align-middle">
-                <div className="mr-1">
-                  {" "}
-                  <Image
-                    className="size-4 inline-block"
-                    alt="icon"
-                    width={16}
-                    height={16}
-                    src={userIcon}
-                  ></Image>
-                  <span>
-                    {meetup.applied.length || 0}/{meetup.capacity}명
-                  </span>
-                </div>
-                ꞏ
-                <div className="mr-1">
-                  <Image
-                    className="size-4 inline-block"
-                    alt="icon"
-                    width={16}
-                    height={16}
-                    src={locationIcon}
-                  ></Image>
-                  <span>{meetup.location}</span>
-                </div>
-                ꞏ<span className="mx-1">{meetup.category.categoryTitle}</span>
-              </div>
+              {meetup.username}님
             </div>
+            <MeetupInform meetup={meetup} />
           </div>
         </div>
         <div>{meetup.description}</div>
@@ -117,10 +89,13 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
           </div>
         )}
         <button
-          className="w-40 sm:w-52 ml-auto border rounded-md text-lg font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200"
+          disabled={meetup.applied.length === meetup.capacity && true}
+          className="w-40 sm:w-52 ml-auto border rounded-md text-lg font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200 disabled:text-zinc-400 disabled:bg-blue-200/50"
           onClick={joinMeetupHandler}
         >
-          가입하기
+          {meetup.applied.length === meetup.capacity
+            ? "마감 되었습니다."
+            : "가입하기"}
         </button>
       </div>
       <NewComment meetup={meetup} />

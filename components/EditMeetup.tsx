@@ -95,7 +95,7 @@ const EditMeetup: React.FC<{
         <label className="font-semibold" htmlFor="image">
           <div className="mx-auto text-center">대표 이미지</div>
           <Image
-            className="mx-auto size-24 rounded-full"
+            className="cursor-pointer mx-auto size-24 rounded-full"
             width={96}
             height={96}
             src={imgValue}

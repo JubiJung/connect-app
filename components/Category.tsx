@@ -1,42 +1,44 @@
 import { ReactNode } from "react";
+import { motion } from "framer-motion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { motion } from "framer-motion";
 
-const categoryList = [
-  { id: 0, category: "전체" },
-  { id: 1, category: "스터디/독서" },
-  { id: 2, category: "악기" },
-  { id: 3, category: "베이킹" },
-  { id: 4, category: "육아" },
-  { id: 5, category: "공예" },
-  { id: 6, category: "게임/보드게임" },
-  { id: 7, category: "음식" },
-  { id: 8, category: "문화/예술" },
-  { id: 9, category: "봉사활동" },
-  { id: 10, category: "반려동물" },
-  { id: 11, category: "스포츠" },
+export const categoryList = [
+  { id: 0, categoryTitle: "전체" },
+  { id: 1, categoryTitle: "스터디/독서" },
+  { id: 2, categoryTitle: "악기" },
+  { id: 3, categoryTitle: "베이킹" },
+  { id: 4, categoryTitle: "육아" },
+  { id: 5, categoryTitle: "공예" },
+  { id: 6, categoryTitle: "게임/보드게임" },
+  { id: 7, categoryTitle: "음식" },
+  { id: 8, categoryTitle: "문화/예술" },
+  { id: 9, categoryTitle: "봉사활동" },
+  { id: 10, categoryTitle: "반려동물" },
+  { id: 11, categoryTitle: "스포츠" },
+  { id: 12, categoryTitle: "여행" },
 ];
 
 const settings = {
+  arrows: false,
   dots: false,
   className: "center",
   infinite: false,
-  slidesToShow: 10,
-  slidesToScroll: 2,
   swipeToSlide: true,
   variableWidth: true,
+  slidesToShow: 7,
+  slidesToScroll: 1,
   responsive: [
     {
-      breakpoint: 1024,
+      breakpoint: 720,
       settings: {
-        slidesToShow: 10,
-        slidesToScroll: 2,
+        slidesToShow: 5,
+        slidesToScroll: 1,
       },
     },
     {
-      breakpoint: 675,
+      breakpoint: 365,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -64,7 +66,9 @@ const Category: React.FC<{
             >
               {selectedCategory === i ? (
                 <>
-                  <div className="cursor-pointer font-bold">{li.category}</div>
+                  <div className="cursor-pointer font-bold">
+                    {li.categoryTitle}
+                  </div>
                   <motion.div
                     layoutId="tab-indicator"
                     transition={{ duration: "0.14" }}
@@ -72,7 +76,7 @@ const Category: React.FC<{
                   />
                 </>
               ) : (
-                <div className="cursor-pointer">{li.category}</div>
+                <div className="cursor-pointer">{li.categoryTitle}</div>
               )}
             </li>
           ))}

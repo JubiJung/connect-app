@@ -16,7 +16,7 @@ const Login = () => {
       <div className="flex flex-col items-center">
         <div className="m-2 inline-block">SNS 계정을 이용해 로그인하세요.</div>
         <Image
-          className="w-56 h-14 mb-4"
+          className="w-56 h-14 mb-4 cursor-pointer"
           width={224}
           height={56}
           onClick={() => signIn("kakao", { callbackUrl: "/" })}
@@ -24,7 +24,7 @@ const Login = () => {
           src={kakaoLoginImg}
         ></Image>
         <Image
-          className="w-56 h-14"
+          className="w-56 h-14 cursor-pointer"
           width={224}
           height={56}
           onClick={() => signIn("naver", { callbackUrl: "/" })}

@@ -47,8 +47,15 @@ const NewComment: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
 
   return (
     <>
-      <div className="m-5 p-3 border border-solid border-zinc-200">
-        <div className="font-semibold text-md">{meetup.username}</div>
+      <div className="m-5 p-3 border border-solid border-zinc-300">
+        <div className="inline-block font-semibold text-md">
+          {session?.user?.name}
+        </div>
+        {session?.user?.name === meetup.username && (
+          <div className="px-2 mx-2 inline-block rounded-full bg-orange-400 text-white font-semibold text-sm">
+            글쓴이
+          </div>
+        )}
         <textarea
           className="w-full resize-none rounded-sm focus:outline focus:outline-2 focus:outline-blue-400"
           value={commentValue}
@@ -63,7 +70,11 @@ const NewComment: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
         </button>
       </div>
       {meetup.comments.map((comment, i) => (
-        <CommentsList key={i} comment={comment} />
+        <CommentsList
+          key={i}
+          comment={comment}
+          meetupUsername={meetup.username}
+        />
       ))}
     </>
   );

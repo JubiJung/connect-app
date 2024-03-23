@@ -37,8 +37,6 @@ const settings = {
   autoplay: true,
   autoplaySpeed: 2500,
   pauseOnHover: true,
-  nextArrow: <SampleNextArrow />,
-  prevArrow: <SamplePrevArrow />,
   appendDots: (dots: any) => (
     <div
       style={{
@@ -57,6 +55,8 @@ const settings = {
     {
       breakpoint: 1024,
       settings: {
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />,
         slidesToShow: 8,
         slidesToScroll: 1,
       },
@@ -64,6 +64,7 @@ const settings = {
     {
       breakpoint: 520,
       settings: {
+        arrows: false,
         slidesToShow: 6,
         slidesToScroll: 1,
       },
@@ -71,6 +72,7 @@ const settings = {
     {
       breakpoint: 430,
       settings: {
+        arrows: false,
         slidesToShow: 5,
         slidesToScroll: 1,
       },
@@ -78,7 +80,7 @@ const settings = {
     {
       breakpoint: 374,
       settings: {
-        dots: false,
+        arrows: false,
         slidesToShow: 4,
         slidesToScroll: 1,
       },
@@ -97,7 +99,6 @@ const RankedMeetup: React.FC<{ meetups: MeetupType[] }> = ({ meetups }) => {
     return sortedMeetup;
   };
   const sortedMeetups = sortMeetups(meetups).slice(0, 12);
-
   return (
     <section className="my-7">
       <div className="text-lg mx-2 my-4 font-semibold">
@@ -118,7 +119,7 @@ const RankedMeetup: React.FC<{ meetups: MeetupType[] }> = ({ meetups }) => {
                 height={64}
                 src={sortedMeetup.image}
               />
-              <div className="cursor-pointer w-16 py-1 text-[12px] text-center line-clamp-2">
+              <div className="cursor-pointer w-[66px] py-1 text-[12px] text-center line-clamp-2">
                 {sortedMeetup.title}
               </div>
             </li>
