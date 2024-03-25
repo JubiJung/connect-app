@@ -164,13 +164,11 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             정원
           </label>
           <motion.input
-            {...register("capacity", { required: true, min: 0 })}
+            {...register("capacity", { required: true, min: 0, max: 99 })}
             whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
             className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
             id="capacity"
             type="number"
-            min={0}
-            max={99}
           />
           {errors.capacity && (
             <div className="my-1 text-red-600">정원을 입력해 주세요.</div>

@@ -24,6 +24,8 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
     }
   };
 
+  console.log(meetup.applied.length, meetup.capacity);
+
   const joinMeetupHandler = async () => {
     const res = confirm("이 모임에 가입할까요?");
     if (session && res) {
