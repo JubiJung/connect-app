@@ -7,6 +7,7 @@ import { ObjectId } from "mongodb";
 import { MeetupType } from "@/pages";
 import Layout from "@/components/UI/Layout";
 import { NextPageWithLayout } from "@/pages/_app";
+import "@/app/globals.css";
 
 const editMeetupPage: NextPageWithLayout<{ meetup: MeetupType }> = ({
   meetup,

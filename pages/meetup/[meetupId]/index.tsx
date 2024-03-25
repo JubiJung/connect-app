@@ -6,6 +6,7 @@ import { MeetupType } from "@/pages";
 import MeetupDetailPage from "@/components/MeetupDetailPage";
 import Layout from "@/components/UI/Layout";
 import { NextPageWithLayout } from "@/pages/_app";
+import "@/app/globals.css";
 
 const MeetupPage: NextPageWithLayout<{ meetup: MeetupType }> = (props) => {
   return (
