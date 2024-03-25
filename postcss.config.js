@@ -1,10 +1,3 @@
-// module.exports = {
-//   plugins: {
-//     tailwindcss: {},
-//     autoprefixer: {},
-//   },
-// }
-
 const { join } = require("path");
 
 module.exports = {
