@@ -108,7 +108,7 @@ const RankedMeetup: React.FC<{ meetups: MeetupType[] }> = ({ meetups }) => {
         <Slider {...settings}>
           {sortedMeetups.map((sortedMeetup) => (
             <li
-              className="w-10 m-2"
+              className="m-2"
               onClick={() => router.push(`/meetup/${sortedMeetup.id}`)}
               key={sortedMeetup.id}
             >
