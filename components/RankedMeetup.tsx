@@ -47,7 +47,7 @@ const settings = {
         justifyContent: "center",
       }}
     >
-      <ul> {dots} </ul>
+      <ul>{dots}</ul>
     </div>
   ),
   dotsClass: "dots_custom",

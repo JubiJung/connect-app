@@ -13,7 +13,7 @@ const Header: React.FC = () => {
           <div className="text-blue-400 text-4xl font-bold">Connect</div>
         </Link>
         <div className="flex">
-          <div className="bg-blue-500 text-white font-bold py-1 px-4 rounded">
+          <div className="text-sm bg-blue-500 text-white font-bold py-1 px-4 rounded sm:text-base">
             {session.user?.name}님 안녕하세요!
           </div>
           <Image

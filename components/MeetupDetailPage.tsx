@@ -52,7 +52,7 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
       <section className="m-5 h-3/5">
         <div className="mx-auto my-4 flex">
           <Image
-            className="size-32 rounded-xl"
+            className="size-24 rounded-xl sm:size-32"
             alt="img"
             src={meetup.image}
             width={128}
