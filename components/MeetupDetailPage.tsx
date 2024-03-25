@@ -95,11 +95,11 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
           </div>
         )}
         <button
-          disabled={meetup.applied.length === meetup.capacity && true}
+          disabled={meetup.applied.length >= meetup.capacity && true}
           className="w-40 sm:w-52 ml-auto border rounded-md text-lg font-semibold text-blue-600 bg-blue-100 border-blue-200 border-solid hover:bg-blue-200 disabled:text-zinc-400 disabled:bg-blue-200/50"
           onClick={joinMeetupHandler}
         >
-          {meetup.applied.length === meetup.capacity
+          {meetup.applied.length >= meetup.capacity
             ? "마감 되었습니다."
             : "모임 참여하기"}
         </button>
