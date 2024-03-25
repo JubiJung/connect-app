@@ -4,7 +4,7 @@ import { GetServerSidePropsContext } from "next";
 import { ObjectId } from "mongodb";
 import { MeetupType } from "@/pages";
 import MeetupDetailPage from "@/components/MeetupDetailPage";
-import Layout from "@/components/Layout";
+import Layout from "@/components/UI/Layout";
 import { NextPageWithLayout } from "@/pages/_app";
 
 const MeetupPage: NextPageWithLayout<{ meetup: MeetupType }> = (props) => {

@@ -5,7 +5,7 @@ import { MongoClient } from "mongodb";
 import { ServerApiVersion } from "mongodb";
 import { ObjectId } from "mongodb";
 import { MeetupType } from "@/pages";
-import Layout from "@/components/Layout";
+import Layout from "@/components/UI/Layout";
 import { NextPageWithLayout } from "@/pages/_app";
 
 const editMeetupPage: NextPageWithLayout<{ meetup: MeetupType }> = ({

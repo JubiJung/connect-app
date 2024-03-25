@@ -2,13 +2,8 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import type { NextPage } from "next";
 import type { ReactElement, ReactNode } from "react";
-import DefaultLayout from "@/components/DefaultLayout";
+import DefaultLayout from "@/components/UI/DefaultLayout";
 import localFont from "next/font/local";
-
-const scoreFont = localFont({
-  src: "../public/font/SCDream3.otf",
-  variable: "--font-score",
-});
 
 const pretendardFont = localFont({
   src: "../public/font/PretendardVariable.ttf",

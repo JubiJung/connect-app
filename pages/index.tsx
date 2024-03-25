@@ -4,7 +4,7 @@ import MainPage from "@/components/MainPage";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import Footer from "@/components/Footer";
 import { NextPageWithLayout } from "./_app";
-import Layout from "@/components/Layout";
+import Layout from "@/components/UI/Layout";
 import type { ReactElement } from "react";
 import "@/app/globals.css";
 dotenv.config();
