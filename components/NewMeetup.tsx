@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import imageCompression from "browser-image-compression";
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Modal from "./Modal";
+import Modal from "../components/UI/Modal";
 import CategoryDropDown from "./CategoryDropDown";
 import { categoryList } from "./Category";
 import addImgIcon from "@/public/image/add_image_icon.png";

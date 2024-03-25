@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import styles from "./Modal.module.css";
+import styles from "../css/Modal.module.css";
 
 const Modal: React.FC<{
   title: string;

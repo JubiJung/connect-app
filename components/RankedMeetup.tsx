@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { MeetupType } from "@/pages";
 import Slider from "react-slick";
 import Image from "next/image";
-import "./slick.css";
+import "./css/slick.css";
 
 function SampleNextArrow(props: any) {
   const { style, onClick } = props;
@@ -108,7 +108,7 @@ const RankedMeetup: React.FC<{ meetups: MeetupType[] }> = ({ meetups }) => {
         <Slider {...settings}>
           {sortedMeetups.map((sortedMeetup) => (
             <li
-              className="w-10 m-2"
+              className="m-2"
               onClick={() => router.push(`/meetup/${sortedMeetup.id}`)}
               key={sortedMeetup.id}
             >
