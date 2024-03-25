@@ -99,7 +99,7 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
         >
           {meetup.applied.length === meetup.capacity
             ? "마감 되었습니다."
-            : "가입하기"}
+            : "모임 참여하기"}
         </button>
       </div>
       <NewComment meetup={meetup} />
