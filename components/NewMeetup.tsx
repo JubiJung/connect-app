@@ -89,8 +89,8 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   const imgPreviewHandler = async () => {
     const imgFile = watch("image");
     const options = {
-      maxSizeMB: 0.01,
-      maxWidthOrHeight: 160,
+      maxSizeMB: 0.02,
+      maxWidthOrHeight: 240,
       useWebWorker: true,
     };
     const fileReader = new FileReader();

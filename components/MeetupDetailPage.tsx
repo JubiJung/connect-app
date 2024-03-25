@@ -59,8 +59,12 @@ const MeetupDetailPage: React.FC<{ meetup: MeetupType }> = ({ meetup }) => {
             height={128}
           />
           <div className="px-3 my-auto">
-            <div className="font-semibold text-gray-600">{meetup.date}</div>
-            <div className="font-extrabold text-2xl">{meetup.title}</div>
+            <div className="font-semibold text-gray-600 text-xs">
+              {meetup.date}
+            </div>
+            <div className="font-extrabold text-xl sm:text-2xl">
+              {meetup.title}
+            </div>
             <div className="font-semibold text-sm text-gray-500">
               {meetup.username}님
             </div>
