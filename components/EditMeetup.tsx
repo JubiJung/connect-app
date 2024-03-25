@@ -152,7 +152,11 @@ const EditMeetup: React.FC<{
           정원
         </label>
         <motion.input
-          {...register("capacity", { required: true, min: 0 })}
+          {...register("capacity", {
+            required: "정원을 입력해 주세요.",
+            min: 0,
+            valueAsNumber: true,
+          })}
           whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
           className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
           defaultValue={meetup.capacity}
@@ -161,7 +165,7 @@ const EditMeetup: React.FC<{
           min={0}
         />
         {errors.capacity && (
-          <div className="my-1 text-red-600">정원을 입력해 주세요.</div>
+          <div className="my-1 text-red-600">{errors.capacity?.message}</div>
         )}
       </div>
       <div className="py-1">
