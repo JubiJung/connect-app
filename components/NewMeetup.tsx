@@ -37,10 +37,9 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
     categoryTitle: string;
   }>(categoryList[1]);
   const [imgData, setImgData] = useState<any>(addImgIcon);
-  const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
-    2,
-    "0"
-  )}/${String(today.getDate()).padStart(2, "0")} ${String(
+  const todayDate = `${today.getFullYear()}/${String(
+    today.getMonth() + 1
+  ).padStart(2, "0")}/${String(today.getDate()).padStart(2, "0")} ${String(
     today.getHours()
   ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
 

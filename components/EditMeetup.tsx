@@ -35,10 +35,9 @@ const EditMeetup: React.FC<{
     watch,
     formState: { errors },
   } = useForm<Inputs>({ mode: "onBlur" });
-  const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
-    2,
-    "0"
-  )}/${String(today.getDate()).padStart(2, "0")} ${String(
+  const todayDate = `${today.getFullYear()}/${String(
+    today.getMonth() + 1
+  ).padStart(2, "0")}/${String(today.getDate()).padStart(2, "0")} ${String(
     today.getHours()
   ).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
   const selectCategoryHandler = (li: { id: number; categoryTitle: string }) => {
