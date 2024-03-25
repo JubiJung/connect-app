@@ -171,6 +171,7 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             id="capacity"
             type="number"
             min={0}
+            max={99}
           />
           {errors.capacity && (
             <div className="my-1 text-red-600">정원을 입력해 주세요.</div>
