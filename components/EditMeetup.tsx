@@ -187,7 +187,7 @@ const EditMeetup: React.FC<{
         <motion.textarea
           {...register("description", { required: true })}
           whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
-          className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md w-2/3 resize-none"
+          className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md w-6/5 h-24 sm:w-2/3 resize-none"
           defaultValue={meetup.description}
           id="description"
         />
