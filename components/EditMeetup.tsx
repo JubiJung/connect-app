@@ -154,6 +154,7 @@ const EditMeetup: React.FC<{
           {...register("capacity", {
             required: "정원을 입력해 주세요.",
             min: 0,
+            max: 99,
             valueAsNumber: true,
           })}
           whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
@@ -161,7 +162,6 @@ const EditMeetup: React.FC<{
           defaultValue={meetup.capacity}
           id="capacity"
           type="number"
-          min={0}
         />
         {errors.capacity && (
           <div className="my-1 text-red-600">{errors.capacity?.message}</div>

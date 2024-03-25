@@ -164,7 +164,12 @@ const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
             정원
           </label>
           <motion.input
-            {...register("capacity", { required: true, min: 0, max: 99 })}
+            {...register("capacity", {
+              required: true,
+              min: 0,
+              max: 99,
+              valueAsNumber: true,
+            })}
             whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
             className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
             id="capacity"
