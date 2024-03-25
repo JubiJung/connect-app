@@ -63,7 +63,7 @@ const CommentsList: React.FC<{
   return (
     <div className="p-3 border-b bottom-1">
       <div className="inline-block font-semibold">{comment.username}</div>
-      {session?.user?.name === meetupUsername && (
+      {comment.username === meetupUsername && (
         <div className="px-2 mx-2 inline-block rounded-full bg-orange-400 text-white font-semibold text-sm ">
           글쓴이
         </div>
