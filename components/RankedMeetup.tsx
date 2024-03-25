@@ -92,9 +92,9 @@ const RankedMeetup: React.FC<{ meetups: MeetupType[] }> = ({ meetups }) => {
   const router = useRouter();
   const sortMeetups = (meetups: MeetupType[]) => {
     const sortedMeetup = [...meetups].sort((a, b) => {
-      const commentsLengthA = a.comments.length;
-      const commentsLengthB = b.comments.length;
-      return commentsLengthB - commentsLengthA;
+      const meetupA = a.applied.length / a.capacity;
+      const meetupB = b.applied.length / b.capacity;
+      return meetupB - meetupA;
     });
     return sortedMeetup;
   };

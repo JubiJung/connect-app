@@ -20,6 +20,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           description: data.description,
           category: data.category,
           capacity: data.capacity,
+          location: data.location,
         },
       }
     );

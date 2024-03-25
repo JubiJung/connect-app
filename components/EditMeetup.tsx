@@ -1,10 +1,22 @@
-import { FormEvent, useRef, useState } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import imageCompression from "browser-image-compression";
 import Image from "next/image";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { MeetupType } from "@/pages";
 import CategoryDropDown from "./CategoryDropDown";
 import { motion } from "framer-motion";
+
+type Inputs = {
+  title: string;
+  description: string;
+  capacity: number;
+  image: any;
+  username: any;
+  location: string;
+  date: string;
+};
 
 const EditMeetup: React.FC<{
   meetup: MeetupType;
@@ -17,13 +29,12 @@ const EditMeetup: React.FC<{
   const router = useRouter();
   const { data: session } = useSession();
   const [imgValue, setImgValue] = useState<string>(meetup.image);
-  const formRef = {
-    titleRef: useRef<HTMLInputElement>(null),
-    locationRef: useRef<HTMLInputElement>(null),
-    imageRef: useRef<HTMLInputElement>(null),
-    capacityRef: useRef<HTMLInputElement>(null),
-    descriptionRef: useRef<HTMLTextAreaElement>(null),
-  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>({ mode: "onBlur" });
   const todayDate = `${today.getFullYear()}/${String(today.getMonth()).padStart(
     2,
     "0"
@@ -34,11 +45,18 @@ const EditMeetup: React.FC<{
     setSelectedCategory(li);
   };
 
-  const imgValueHandler = () => {
+  const imgValueHandler = async () => {
+    const imgFile = watch("image");
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 240,
+      useWebWorker: true,
+    };
     const fileReader = new FileReader();
-    const inputImage = formRef.imageRef.current!.files![0];
+    const inputImage = imgFile[0];
+    const compressedFile = await imageCompression(inputImage, options);
     if (inputImage) {
-      fileReader.readAsDataURL(inputImage);
+      fileReader.readAsDataURL(compressedFile);
       fileReader.onload = () => {
         setImgValue(fileReader.result as string);
       };
@@ -65,32 +83,26 @@ const EditMeetup: React.FC<{
     router.push(`/meetup/${router.query.meetupId}`);
   };
 
-  const submitHandler = (e: FormEvent) => {
-    e.preventDefault();
+  const submitHandler: SubmitHandler<Inputs> = (data) => {
     const checkSubmit = confirm("모임을 등록할까요?");
     if (!checkSubmit) return;
-    const enteredTitle = formRef.titleRef.current!.value;
-    const enteredDescription = formRef.descriptionRef.current!.value;
-    const enteredCategory = selectedCategory;
-    const enteredCapacity = parseInt(formRef.capacityRef.current!.value);
-    const enteredLocation = formRef.locationRef.current!.value;
     const meetupData = {
       id: meetup.id,
       comments: meetup.comments,
       date: todayDate,
       image: imgValue,
-      title: enteredTitle,
-      category: enteredCategory,
-      capacity: enteredCapacity,
-      description: enteredDescription,
+      title: data.title,
+      category: selectedCategory,
+      capacity: data.capacity,
+      description: data.description,
       username: session?.user?.name,
-      location: enteredLocation,
+      location: data.location,
     };
     addMeetupHandler(meetupData);
   };
 
   return (
-    <form onSubmit={submitHandler} className="m-5 h-3/5">
+    <form onSubmit={handleSubmit(submitHandler)} className="m-5 h-3/5">
       <div className="py-1">
         <label className="font-semibold" htmlFor="image">
           <div className="mx-auto text-center">대표 이미지</div>
@@ -102,9 +114,10 @@ const EditMeetup: React.FC<{
             alt="image"
           ></Image>
           <motion.input
+            {...register("image", {
+              onChange: imgValueHandler,
+            })}
             className="hidden"
-            ref={formRef.imageRef}
-            onChange={imgValueHandler}
             id="image"
             type="file"
             accept="image/*"
@@ -116,14 +129,16 @@ const EditMeetup: React.FC<{
           모임명
         </label>
         <motion.input
+          {...register("title", { required: true })}
           whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
           className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
           defaultValue={meetup.title}
-          ref={formRef.titleRef}
           id="title"
           type="text"
-          required
         />
+        {errors.title && (
+          <div className="my-1 text-red-600">모임명을 입력해 주세요.</div>
+        )}
       </div>
       <div className="py-1 max-w-md">
         <span className="font-semibold mr-1">카테고리</span>
@@ -137,40 +152,44 @@ const EditMeetup: React.FC<{
           정원
         </label>
         <motion.input
+          {...register("capacity", { required: true, min: 0 })}
           whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
           className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
           defaultValue={meetup.capacity}
-          ref={formRef.capacityRef}
           id="capacity"
           type="number"
           min={0}
-          required
         />
+        {errors.capacity && (
+          <div className="my-1 text-red-600">정원을 입력해 주세요.</div>
+        )}
       </div>
       <div className="py-1">
         <label className="font-semibold" htmlFor="location">
           위치
         </label>
         <motion.input
+          {...register("location", { required: true })}
           whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
           className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md"
           defaultValue={meetup.location}
-          ref={formRef.locationRef}
           id="location"
           type="text"
         />
+        {errors.location && (
+          <div className="my-1 text-red-600">위치를 추가해 주세요.</div>
+        )}
       </div>
       <div className="py-1">
         <label className="font-semibold" htmlFor="description">
           모임소개
         </label>
         <motion.textarea
+          {...register("description", { required: true })}
           whileFocus={{ y: [0, -1.5], transition: { duration: 0.2 } }}
           className="block my-1 border-solid border border-zinc-400 focus:outline-none focus:border-blue-400 rounded-md w-2/3 resize-none"
           defaultValue={meetup.description}
-          ref={formRef.descriptionRef}
           id="description"
-          required
         />
       </div>
       <div className="text-right my-1">
