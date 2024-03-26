@@ -1,8 +1,5 @@
 # Connect-app (2024/02 ~ 2024/03/26)
-<img width="300" height="554" src="https://github.com/JubiJung/connect-app/assets/124552101/9f5f9553-8531-4ba0-a267-302aca89b413"/>
-
-
-<img width="530" height="414" src="https://github.com/JubiJung/connect-app/assets/124552101/c308bfde-5bc7-433f-9063-96cafa5e0f29"/>
+![image](https://github.com/JubiJung/connect-app/assets/124552101/84a151a4-91fc-43d8-807d-5989a4adf6b8)
 
 **배포** https://connect-app-teal.vercel.app/
 ***
