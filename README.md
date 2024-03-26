@@ -1,6 +1,6 @@
 # Connect-app (2024/02 ~ 2024/03/26)
 
-**배포** [<https://scene-c942c.web.app/>]
+**배포** <https://scene-c942c.web.app/>
 ***
 
 타입스크립트, Tilwind css, Next.js를 사용하여 만든 모임 웹앱입니다.
