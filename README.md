@@ -1,6 +1,6 @@
 # Connect-app (2024/02 ~ 2024/03/26)
-![connect_app_web_test_upload](https://github.com/JubiJung/connect-app/assets/124552101/dde0448c-fcce-44e7-a824-0bcaeaa62f9d)
-![connect_app_mobile_test_upload](https://github.com/JubiJung/connect-app/assets/124552101/7a8ed295-a7a0-4926-9055-d16f75bb98d7)
+<img width="330" height="214" src="https://github.com/JubiJung/connect-app/assets/124552101/c308bfde-5bc7-433f-9063-96cafa5e0f29"/>
+<img width="330" height="214" src="https://github.com/JubiJung/connect-app/assets/124552101/9f5f9553-8531-4ba0-a267-302aca89b413"/>
 
 **배포** https://connect-app-teal.vercel.app/
 ***
