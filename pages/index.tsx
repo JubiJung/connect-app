@@ -9,7 +9,7 @@ import type { ReactElement } from "react";
 import "@/app/globals.css";
 dotenv.config();
 
-export type MeetupType = {
+export interface MeetupType {
   username: string;
   date: string;
   image: string;
@@ -29,7 +29,7 @@ export type MeetupType = {
   ];
   capacity: number;
   applied: [];
-};
+}
 
 const HomePage: NextPageWithLayout<{ meetups: MeetupType[] }> = ({
   meetups,

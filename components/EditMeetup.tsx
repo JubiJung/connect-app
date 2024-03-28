@@ -8,7 +8,7 @@ import { MeetupType } from "@/pages";
 import CategoryDropDown from "./CategoryDropDown";
 import { motion } from "framer-motion";
 
-type Inputs = {
+interface Inputs {
   title: string;
   description: string;
   capacity: number;
@@ -16,7 +16,7 @@ type Inputs = {
   username: any;
   location: string;
   date: string;
-};
+}
 
 const EditMeetup: React.FC<{
   meetup: MeetupType;

@@ -10,7 +10,7 @@ import CategoryDropDown from "./CategoryDropDown";
 import { categoryList } from "./Category";
 import addImgIcon from "@/public/image/add_image_icon.png";
 
-type Inputs = {
+interface Inputs {
   title: string;
   description: string;
   capacity: number;
@@ -18,7 +18,7 @@ type Inputs = {
   username: any;
   location: string;
   date: string;
-};
+}
 
 const NewMeetup: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   const router = useRouter();
