@@ -4,7 +4,7 @@
 **배포** https://connect-app-teal.vercel.app/
 ***
 
-타입스크립트, Tilwind css, Next.js를 사용하여 만든 모임 웹앱입니다.
+Next.js, Typescript, Tailwind CSS, Framer-motion을 이용하여 만들고 vercel로 배포한 모임 웹입니다.
 
 ### 📃프로젝트 소개
 ***
