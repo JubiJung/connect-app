@@ -20,7 +20,7 @@ Next.js, Typescript, Tailwind CSS, Framer-motion을 이용하여 만들고 verce
 + 전반적인 프론트엔드 코드 구현
 + 폼을 통해 모임 추가, 수정 구현
 + 데이터 관리를 위해 MongoDB 데이터베이스 사용
-+ verceld을 통해 배포
++ vercel을 통해 배포
 
 ### 💻기술
 ***
