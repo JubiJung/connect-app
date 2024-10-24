@@ -1,7 +1,7 @@
 # Connect-app (2024/02 ~ 2024/03/26)
 ![image](https://github.com/JubiJung/connect-app/assets/124552101/84a151a4-91fc-43d8-807d-5989a4adf6b8)
 
-**배포** https://connect-app-teal.vercel.app/
+**배포** [https://connect-app-teal.vercel.app/](https://connect-project-jubi.vercel.app/)
 ***
 
 Next.js, Typescript, Tailwind CSS, Framer-motion을 이용하여 만들고 vercel로 배포한 모임 웹입니다.
